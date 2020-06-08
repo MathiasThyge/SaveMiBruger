@@ -25,7 +25,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.logout_button).setOnClickListener {
-            findNavController().navigate(R.id.action_homefragment_to_loginfragment)
+            findNavController().navigate(R.id.action_registrerFragement_to_loginFragment)
         }
     }
 

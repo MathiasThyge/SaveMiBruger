@@ -12,14 +12,10 @@
         android:id="@+id/safe_mi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginRight="60dp"
         android:text="@string/safe_mi"
         android:textColor="#000000"
-        android:textSize="46sp"
+        android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.382"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,14 +23,14 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="75dp"
-        android:layout_height="80dp"
+        android:layout_width="89dp"
+        android:layout_height="97dp"
         android:layout_marginStart="60dp"
         android:layout_marginLeft="80dp"
         android:contentDescription="@string/safe_mi"
         android:src="@drawable/pic_logo"
         app:layout_constraintEnd_toEndOf="@+id/safe_mi"
-        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintHorizontal_bias="0.58"
         app:layout_constraintStart_toStartOf="@+id/safe_mi"
         app:layout_constraintTop_toTopOf="@+id/safe_mi" />
 
@@ -107,7 +103,7 @@
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/slogan"
         android:textColor="@android:color/black"
-        android:textSize="24sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />

@@ -25,11 +25,16 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
         <action
-            android:id="@+id/action_homefragment_to_loginfragment"
+            android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@+id/loginFragment"/>
+
     <fragment
         android:id="@+id/registrerFragment"
         android:name="com.example.savemi.RegistrerFragment"
         android:label="fragment_registrer"
         tools:layout="@layout/fragment_registrer" />
+    <action
+        android:id="@+id/action_registrerFragement_to_loginFragment"
+        app:destination="@+id/loginFragment"/>
+
 </navigation>
