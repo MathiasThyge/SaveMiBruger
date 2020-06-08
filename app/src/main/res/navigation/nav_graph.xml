@@ -12,13 +12,24 @@
         tools:layout="@layout/fragment_login"
         app:navGraph="@navigation/nav_graph">
         <action
-            android:id="@+id/action_loginFragment_to_fragment_home2"
-            app:destination="@id/fragment_home"/>
+            android:id="@+id/action_loginFragment_to_homefragment"
+            app:destination="@id/homeFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_registrerFragment"
+            app:destination="@id/registrerFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_home"
-        android:name="com.example.savemi.fragment_home"
+        android:id="@+id/homeFragment"
+        android:name="com.example.savemi.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+        <action
+            android:id="@+id/action_homefragment_to_loginfragment"
+            app:destination="@+id/loginFragment"/>
+    <fragment
+        android:id="@+id/registrerFragment"
+        android:name="com.example.savemi.RegistrerFragment"
+        android:label="fragment_registrer"
+        tools:layout="@layout/fragment_registrer" />
 </navigation>

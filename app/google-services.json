@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "344485578013",
+    "firebase_url": "https://savemi-43d0f.firebaseio.com",
+    "project_id": "savemi-43d0f",
+    "storage_bucket": "savemi-43d0f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344485578013:android:35bd2b3867dbc9cd8a0df4",
+        "android_client_info": {
+          "package_name": "com.example.savemi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344485578013-ikchbnqoi4jpqrdif14brsjildhl4n8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4jCH5WtwhMljg24_4SLi7flbJp9F7k_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "344485578013-ikchbnqoi4jpqrdif14brsjildhl4n8c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
