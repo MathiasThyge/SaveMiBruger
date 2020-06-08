@@ -1,0 +1,2 @@
+rootProject.name='SAVEMI'
+include ':app'
