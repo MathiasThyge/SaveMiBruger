@@ -94,7 +94,6 @@ class LoginFragment : Fragment() {
                     // Sign in success, update UI with the signed-in user's information
                     val user = auth.currentUser
                     updateUI(user)
-
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
@@ -104,11 +103,7 @@ class LoginFragment : Fragment() {
                     ).show()
                     updateUI(null)
                 }
-
             }
-
-
     }
-
 }
 

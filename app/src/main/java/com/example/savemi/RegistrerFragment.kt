@@ -1,6 +1,7 @@
 package com.example.savemi
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,11 +12,12 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_registrer.*
 
 
 class RegistrerFragment : Fragment() {
-
+    private val logtag = RegistrerFragment::class.simpleName
     private lateinit var auth: FirebaseAuth
 
 
@@ -31,19 +33,24 @@ class RegistrerFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
        view.findViewById<Button>(R.id.regi_button).setOnClickListener{
-           signup()
+           signUp()
        }
-
-
         view.findViewById<ImageView>(R.id.back_from_registrer).setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_registrerFragement_to_loginFragment)
         }
 
-
+    }
+    private fun updateUI(currentUser: FirebaseUser?){
+        if(currentUser!=null){
+            Log.d(logtag,"updateUI before navcontroller")
+            findNavController().navigate(R.id.action_registrerFragment_to_regiDataFragment)
+        }else{
+            Toast.makeText(activity,"Login fejlede",Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun signup() {
-
+    private fun signUp() {
+        auth = FirebaseAuth.getInstance()
         if (regi_email.text.toString().isEmpty()) {
             regi_email.error = "Indtast email"
             regi_email.requestFocus()
@@ -59,8 +66,6 @@ class RegistrerFragment : Fragment() {
         if (regi_password.text.toString().isEmpty()) {
             regi_password.error = "Indtast kodeord"
             regi_password.requestFocus()
-            println(regi_password.length())
-
             return
         }
 
@@ -77,8 +82,10 @@ class RegistrerFragment : Fragment() {
             .addOnCompleteListener() { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    findNavController().navigate(R.id.action_registrerFragement_to_HomeFragment)
 
+                    val user = auth.currentUser
+                    Log.d(logtag,"oprettet$user")
+                    updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
@@ -86,6 +93,7 @@ class RegistrerFragment : Fragment() {
                         "Registrering fejlede, prøv igen efter noget tid",
                         Toast.LENGTH_SHORT
                     ).show()
+                    updateUI(null)
                 }
             }
     }

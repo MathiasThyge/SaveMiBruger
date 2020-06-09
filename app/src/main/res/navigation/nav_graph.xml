@@ -32,12 +32,23 @@
         android:id="@+id/registrerFragment"
         android:name="com.example.savemi.RegistrerFragment"
         android:label="fragment_registrer"
-        tools:layout="@layout/fragment_registrer" />
+        tools:layout="@layout/fragment_registrer" >
+        <action
+            android:id="@+id/action_registrerFragment_to_regiDataFragment"
+            app:destination="@id/regiDataFragment" />
+    </fragment>
     <action
         android:id="@+id/action_registrerFragement_to_loginFragment"
         app:destination="@+id/loginFragment"/>
     <action
         android:id="@+id/action_registrerFragement_to_HomeFragment"
         app:destination="@+id/homeFragment"/>
+
+    <fragment
+        android:id="@+id/regiDataFragment"
+        android:name="com.example.savemi.RegiDataFragment"
+        android:label="fragment_regi_data"
+        tools:layout="@layout/fragment_regi_data" />
+
 
 </navigation>
