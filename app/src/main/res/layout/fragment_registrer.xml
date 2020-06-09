@@ -46,7 +46,7 @@
         android:hint="eksembel@mail.dk"
         android:inputType="textEmailAddress"
         android:paddingLeft="12dp"
-        android:shadowColor="#000000"
+        android:shadowColor="@android:color/black"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/regi_password"
@@ -96,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@+id/regi_password" />
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/regi_button"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
