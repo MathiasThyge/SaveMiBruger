@@ -44,7 +44,6 @@ class RegistrerFragment : Fragment() {
 
     private fun signup() {
 
-
         if (regi_email.text.toString().isEmpty()) {
             regi_email.error = "Indtast email"
             regi_email.requestFocus()
@@ -59,6 +58,14 @@ class RegistrerFragment : Fragment() {
 
         if (regi_password.text.toString().isEmpty()) {
             regi_password.error = "Indtast kodeord"
+            regi_password.requestFocus()
+            println(regi_password.length())
+
+            return
+        }
+
+        if(regi_password.length()<8){
+            regi_password.error ="min. 8 karaktere"
             regi_password.requestFocus()
             return
         }
