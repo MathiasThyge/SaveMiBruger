@@ -3,4 +3,6 @@
     <string name="safe_mi">" SAFE       MI"</string>
     <string name="slogan">"Save Medical Information</string>
     <string name="createaccount">"Her du ikke en bruger? Opret en her!"</string>
-    </resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
