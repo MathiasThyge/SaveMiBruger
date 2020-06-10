@@ -45,7 +45,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/button"
         android:gravity="center_vertical"
-        android:hint="eksembel@mail.dk"
+        android:hint="eksempel@mail.dk"
         android:inputType="textEmailAddress"
         android:paddingLeft="12dp"
         android:textColor="@android:color/black"

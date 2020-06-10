@@ -70,7 +70,7 @@
             android:scrollbars="vertical">
 
             <EditText
-                android:id="@+id/RegiDataName"
+                android:id="@+id/regiDataName"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="30dp"
@@ -87,7 +87,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
+            
             <EditText
                 android:id="@+id/regiDataPersonalID"
                 android:layout_width="0dp"
@@ -106,7 +106,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/RegiDataName" />
+                app:layout_constraintTop_toBottomOf="@+id/regiDataName" />
 
             <EditText
                 android:id="@+id/regiDataBlodType"
@@ -247,6 +247,18 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/regiData_confirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/inputbox"
+        android:text="Bekræft"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
