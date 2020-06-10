@@ -19,17 +19,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/Registrer_headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="70dp"
         android:text="Registrer"
         android:textColor="@android:color/black"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/regi_email"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <EditText
@@ -48,6 +48,7 @@
         android:paddingLeft="12dp"
         android:shadowColor="@android:color/black"
         android:textColor="@android:color/black"
+        android:textCursorDrawable="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/regi_password"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,30 +66,35 @@
         android:layout_marginRight="30dp"
         android:background="@drawable/inputbox"
         android:gravity="center_vertical"
-        android:hint="***********"
+        android:hint="Kodeord"
         android:inputType="textPassword"
         android:paddingLeft="12dp"
         android:textColor="@android:color/black"
+        android:textCursorDrawable="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regi_email" />
 
     <EditText
-        android:id="@+id/regi_name"
+        android:id="@+id/regi_password_repaet"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/inputbox"
         android:gravity="center_vertical"
-        android:hint="Dit fulde navn"
+        android:hint="Gentag kodeord"
         android:inputType="textPassword"
         android:paddingLeft="12dp"
         android:textColor="@android:color/black"
+        android:textCursorDrawable="@android:color/black"
+        android:textSelectHandle="@android:color/black"
+        android:textSelectHandleLeft="@android:color/black"
+        android:textSelectHandleRight="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -101,7 +107,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/inputbox"
@@ -109,6 +115,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regi_name" />
+        app:layout_constraintTop_toBottomOf="@+id/regi_password_repaet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
