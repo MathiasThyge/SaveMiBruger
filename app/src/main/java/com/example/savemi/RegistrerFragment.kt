@@ -41,6 +41,7 @@ class RegistrerFragment : Fragment() {
         }
 
     }
+
     private fun updateUI(currentUser: FirebaseUser?){
         if(currentUser!=null){
             Log.d(logtag,"updateUI before navcontroller")
