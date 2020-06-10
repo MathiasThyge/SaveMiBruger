@@ -1,5 +1,6 @@
 package com.example.savemi
 
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 
 /**
  * A simple [Fragment] subclass.
@@ -16,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 class RegiDataFragment : Fragment() {
     private val logtag = RegiDataFragment::class.simpleName
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
