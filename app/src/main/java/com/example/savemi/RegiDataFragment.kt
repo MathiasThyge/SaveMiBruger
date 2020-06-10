@@ -2,6 +2,7 @@ package com.example.savemi
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,8 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_regi_data.*
 import kotlinx.android.synthetic.main.fragment_regi_data.view.*
+import kotlin.concurrent.timerTask
+
 /**
  * A simple [Fragment] subclass.
  */
@@ -44,6 +47,8 @@ class RegiDataFragment : Fragment() {
 
          view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
              createUser()
+             createKey()
+
              //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)       Use to control layout
          }
     }
@@ -66,8 +71,7 @@ class RegiDataFragment : Fragment() {
             return
         }
 
-        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() <=13 &&
-            RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() >=12 ) {
+        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() > 12 ) {
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv korrekt CPR"
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
             return
@@ -82,14 +86,40 @@ class RegiDataFragment : Fragment() {
 
             database.child("users").child( uid ).setValue(user).addOnCompleteListener(){ task ->
                 if( task.isSuccessful){
-                    findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)
+                    //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)
                 } else{
                     Toast.makeText(activity,"Der skete en fejl",Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
     }
+    private fun createKey( ){
+        val allergies = ArrayList<String>()
+        auth = FirebaseAuth.getInstance()
+        database = Firebase.database.reference
+        val uid = auth.currentUser?.uid.toString()
+        allergies.add(RegiData_ScrollView_ContraintLayout.regiDataAllergie.text.toString())
+        allergies.add(RegiData_ScrollView_ContraintLayout.regiDataAllergie2.text.toString())
 
+        var i = 0
+        for (item in allergies){
+            Log.d(logtag,"Allergi item $item")
+            Log.d(logtag,"Allergisize før: " + allergies.size)
+            database.child("users").child(uid).child("Allergies").child("Allergi$i").setValue(item).addOnCompleteListener() { task ->
+                Log.d(logtag, "Før if $allergies" )
+                Log.d(logtag,"Allergisize efter: " + allergies.size)
+                if(task.isSuccessful) {
+                    Log.d(logtag, "Allergier gennemlæst")
+                    findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)
+                }else{
+                    Toast.makeText(activity,"Der skete en fejl",Toast.LENGTH_SHORT).show()
+                }
+            }
+            i++
+            Log.d(logtag, "Efter i+ $i")
+        }
+
+
+    }
 
 }
