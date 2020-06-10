@@ -15,7 +15,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_regi_data.*
 import kotlinx.android.synthetic.main.fragment_regi_data.view.*
-
 /**
  * A simple [Fragment] subclass.
  */
