@@ -48,7 +48,16 @@
         android:id="@+id/regiDataFragment"
         android:name="com.example.savemi.RegiDataFragment"
         android:label="fragment_regi_data"
-        tools:layout="@layout/fragment_regi_data" />
+        tools:layout="@layout/fragment_regi_data" >
+        <action
+            android:id="@+id/action_regiDataFragment_to_scanForWristbandFragment"
+            app:destination="@id/scanForWristbandFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scanForWristbandFragment"
+        android:name="com.example.savemi.ScanForWristbandFragment"
+        android:label="fragment_scan_for_wristband"
+        tools:layout="@layout/fragment_scan_for_wristband" />
         <action
             android:id="@+id/action_regiDataFragment_to_homefragment"
             app:destination="@+id/homeFragment"/>
