@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +30,16 @@ class ScanForWristbandFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-    }
+
+        view?.findViewById<Button>(R.id.scanwristband)?.setOnClickListener{
+            //signUp()  // uncomment to registrer
+            findNavController().navigate(R.id.action_scanForWristbandFragment_to_confirmWristbandFragment)
+        }
+        view?.findViewById<ImageView>(R.id.back_from_scanWristband)?.setOnClickListener {
+            findNavController().navigate(R.id.action_scanForWristbandFragment_to_regiDataFragment)
+        }
+
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

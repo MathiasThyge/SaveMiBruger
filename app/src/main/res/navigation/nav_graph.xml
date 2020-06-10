@@ -57,10 +57,20 @@
         android:id="@+id/scanForWristbandFragment"
         android:name="com.example.savemi.ScanForWristbandFragment"
         android:label="fragment_scan_for_wristband"
-        tools:layout="@layout/fragment_scan_for_wristband" />
+        tools:layout="@layout/fragment_scan_for_wristband" >
         <action
-            android:id="@+id/action_regiDataFragment_to_homefragment"
-            app:destination="@+id/homeFragment"/>
+            android:id="@+id/action_scanForWristbandFragment_to_confirmWristbandFragment"
+            app:destination="@id/confirmWristbandFragment" />
+        <action
+            android:id="@+id/action_scanForWristbandFragment_to_regiDataFragment"
+            app:destination="@id/regiDataFragment"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmWristbandFragment"
+        android:name="com.example.savemi.ConfirmWristbandFragment"
+        android:label="fragment_confirm_wristband"
+        tools:layout="@layout/fragment_confirm_wristband" />
 
 
 </navigation>
