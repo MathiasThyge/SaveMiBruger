@@ -110,7 +110,7 @@ class RegiDataFragment : Fragment() {
                 Log.d(logtag,"Allergisize efter: " + allergies.size)
                 if(task.isSuccessful) {
                     Log.d(logtag, "Allergier gennemlæst")
-                    findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)
+                    findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
                 }else{
                     Toast.makeText(activity,"Der skete en fejl",Toast.LENGTH_SHORT).show()
                 }
