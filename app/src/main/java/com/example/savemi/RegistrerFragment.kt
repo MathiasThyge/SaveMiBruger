@@ -33,8 +33,8 @@ class RegistrerFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
        view.findViewById<Button>(R.id.regi_button).setOnClickListener{
-           //signUp()
-           findNavController().navigate(R.id.action_registrerFragment_to_regiDataFragment)
+           //signUp()  // uncomment to registrer
+           findNavController().navigate(R.id.action_registrerFragment_to_regiDataFragment)  // use when testing layout
        }
         view.findViewById<ImageView>(R.id.back_from_registrer).setOnClickListener {
             findNavController().navigate(R.id.action_registrerFragement_to_loginFragment)
