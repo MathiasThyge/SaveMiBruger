@@ -38,10 +38,10 @@
 
     <ImageView
         android:id="@+id/home_changeProfilePic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="105dp"
-        android:layout_marginLeft="105dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
         android:layout_marginTop="120dp"
         android:src="@drawable/add_circle_outline_24px_outlined"
         app:layout_constraintStart_toStartOf="@+id/home_profilepic"
