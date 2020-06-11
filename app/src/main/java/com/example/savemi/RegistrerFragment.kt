@@ -77,24 +77,15 @@ class RegistrerFragment : Fragment() {
             return
         }
 
-        auth.createUserWithEmailAndPassword(
-            regi_email.text.toString(),
-            regi_password.text.toString()
-        )
-            .addOnCompleteListener() { task ->
+        auth.createUserWithEmailAndPassword(regi_email.text.toString(), regi_password.text.toString()).addOnCompleteListener() { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-
                     val user = auth.currentUser
                     Log.d(logtag,"oprettet$user")
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
-                    Toast.makeText(
-                        activity,
-                        "Registrering fejlede, prøv igen efter noget tid",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(activity, "Registrering fejlede, prøv igen efter noget tid", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
             }

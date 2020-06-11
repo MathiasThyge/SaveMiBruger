@@ -47,8 +47,6 @@ class RegiDataFragment : Fragment() {
 
          view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
              createUser()
-             createKey()
-
              //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)       Use to control layout
          }
     }
@@ -64,20 +62,19 @@ class RegiDataFragment : Fragment() {
             RegiData_ScrollView_ContraintLayout.regiDataName.requestFocus()
             return
         }
-
         if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.text.toString().isEmpty()) {
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv CPR"
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
             return
         }
-
-        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() > 12 ) {
+        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() > 14 && RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() < 11) {
+            Log.d(logtag, "Length of CPR in:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv korrekt CPR"
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
             return
         }
-
         if( currentUser != null ) {
+            Log.d(logtag, "Length of CPR:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
             val uid = auth.currentUser?.uid.toString()
 
             val Navn = RegiData_ScrollView_ContraintLayout.regiDataName.text.toString()
@@ -91,9 +88,15 @@ class RegiDataFragment : Fragment() {
                     Toast.makeText(activity,"Der skete en fejl",Toast.LENGTH_SHORT).show()
                 }
             }
+
+            uploadeInfo()
         }
     }
-    private fun createKey( ){
+    private fun uploadeInfo( ){
+
+
+
+
         val allergies = ArrayList<String>()
         auth = FirebaseAuth.getInstance()
         database = Firebase.database.reference
@@ -101,11 +104,32 @@ class RegiDataFragment : Fragment() {
         allergies.add(RegiData_ScrollView_ContraintLayout.regiDataAllergie.text.toString())
         allergies.add(RegiData_ScrollView_ContraintLayout.regiDataAllergie2.text.toString())
 
-        var i = 0
+        database.child("users").child(uid).child("Allergies").setValue(allergies).addOnCompleteListener() { task ->
+            Log.d(logtag, "Før if $allergies" )
+            Log.d(logtag,"Allergisize efter: " + allergies.size)
+            if(task.isSuccessful) {
+                Log.d(logtag, "Allergier gennemlæst")
+                findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
+            }else{
+                Toast.makeText(activity,"Der skete en fejl",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+    }
+
+}
+
+
+
+
+/*
+
+var i = 0
         for (item in allergies){
             Log.d(logtag,"Allergi item $item")
             Log.d(logtag,"Allergisize før: " + allergies.size)
-            database.child("users").child(uid).child("Allergies").child("Allergi$i").setValue(item).addOnCompleteListener() { task ->
+            database.child("users").child(uid).child("Allergies").child("Allergi$i").setValue(allergies).addOnCompleteListener() { task ->
                 Log.d(logtag, "Før if $allergies" )
                 Log.d(logtag,"Allergisize efter: " + allergies.size)
                 if(task.isSuccessful) {
@@ -119,7 +143,4 @@ class RegiDataFragment : Fragment() {
             Log.d(logtag, "Efter i+ $i")
         }
 
-
-    }
-
-}
+ */
