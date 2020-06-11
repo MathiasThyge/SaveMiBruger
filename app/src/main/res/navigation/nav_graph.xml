@@ -70,7 +70,20 @@
         android:id="@+id/confirmWristbandFragment"
         android:name="com.example.savemi.ConfirmWristbandFragment"
         android:label="fragment_confirm_wristband"
-        tools:layout="@layout/fragment_confirm_wristband" />
+        tools:layout="@layout/fragment_confirm_wristband" >
+        <action
+            android:id="@+id/action_confirmWristbandFragment_to_connectedWritsbandFragment"
+            app:destination="@id/connectedWritsbandFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/connectedWritsbandFragment"
+        android:name="com.example.savemi.ConnectedWritsbandFragment"
+        android:label="fragment_wristband_connected"
+        tools:layout="@layout/fragment_wristband_connected" />
+    <action
+        android:id="@+id/action_connectedWritsbandFragment_to_HomeFragment"
+        app:destination="@+id/homeFragment"
+        />
 
 
 </navigation>
