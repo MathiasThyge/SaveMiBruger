@@ -67,8 +67,15 @@ class RegiDataFragment : Fragment() {
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
             return
         }
-        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() > 14 && RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() < 11) {
-            Log.d(logtag, "Length of CPR in:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
+        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() > 14 ) {
+            Log.d(logtag, "Length of CPR in 14:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
+            RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv korrekt CPR"
+            RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
+            return
+        }
+
+        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() <= 11) {
+            Log.d(logtag, "Length of CPR in 11:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv korrekt CPR"
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
             return
@@ -83,13 +90,13 @@ class RegiDataFragment : Fragment() {
 
             database.child("users").child( uid ).setValue(user).addOnCompleteListener(){ task ->
                 if( task.isSuccessful){
-                    //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)
+                        uploadeInfo()
                 } else{
                     Toast.makeText(activity,"Der skete en fejl",Toast.LENGTH_SHORT).show()
                 }
             }
 
-            uploadeInfo()
+
         }
     }
     private fun uploadeInfo( ){
