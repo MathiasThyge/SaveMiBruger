@@ -1,19 +1,24 @@
 package com.example.savemi
 
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.TranslateAnimation
+import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragment_regi_data.*
 import kotlinx.android.synthetic.main.fragment_regi_data.view.*
 import kotlin.concurrent.timerTask
@@ -34,26 +39,37 @@ class RegiDataFragment : Fragment() {
         //var BeaconId: String?
     )
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_regi_data,container,false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated( view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
             createUser()
-
             pluralInput("Allergier")
             pluralInput("Medicin")
             pluralInput("Other")
             pluralInput("")
-
             //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)       Use to control layout
+        }
+
+        var addField = true
+        view.findViewById<ImageButton>(R.id.regiData_add).setOnClickListener(){
+            if(addField) {
+                val animationUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
+                regiData_overlay_view.startAnimation(animationUp)
+                regiData_overlay_view.visibility = FrameLayout.VISIBLE
+                addField = !addField
+            }
+        }
+        view.findViewById<ConstraintLayout>(R.id.RegiData_ScrollView_ContraintLayout).setOnClickListener(){
+            if (!addField) {
+                val animationDown = AnimationUtils.loadAnimation(context, R.anim.slide_down)
+                regiData_overlay_view.startAnimation(animationDown)
+                regiData_overlay_view.visibility = FrameLayout.GONE
+            addField = !addField
+            }
         }
     }
 
