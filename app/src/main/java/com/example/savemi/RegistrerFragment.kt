@@ -28,6 +28,7 @@ class RegistrerFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_registrer, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()

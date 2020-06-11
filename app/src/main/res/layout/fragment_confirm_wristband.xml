@@ -25,21 +25,50 @@
         android:layout_width="178dp"
         android:layout_height="224dp"
         android:layout_marginTop="167dp"
-        android:layout_marginBottom="249dp"
+        android:layout_marginBottom="300dp"
         android:src="@drawable/wristbandsignal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.351" />
+
+    <TextView
+        android:id="@+id/choosebeacontext"
+        android:layout_width="156dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="421dp"
+        android:layout_marginBottom="220dp"
+        android:text="Vælg   Armbånd"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/beacon"
-        android:layout_width="110dp"
-        android:layout_height="29dp"
-        android:layout_marginTop="421dp"
-        android:layout_marginBottom="190dp"
-        android:text="Vælg Armbånd"
+    <CheckBox
+        android:id="@+id/iBeaconID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="518dp"
+        android:layout_marginBottom="181dp"
+        android:text="Armbånd nr"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="307dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="589dp"
+        android:layout_marginBottom="88dp"
+        android:background="#009688"
+        android:text="Tilslut armbånd"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

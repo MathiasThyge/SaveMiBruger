@@ -5,4 +5,9 @@
     <string name="createaccount">"Her du ikke en bruger? Opret en her!"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Intet_armbånd_fundet_text">wristbandNotfound</string>
+    <string name="tryconnectagain">tryagain</string>
+    <string name="Prøv_igen">tryconnectagain</string>
+    <string name="OK">ok</string>
+    <string name="Fortryd">cancel</string>
 </resources>

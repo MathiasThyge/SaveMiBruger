@@ -62,8 +62,8 @@
             android:id="@+id/action_scanForWristbandFragment_to_confirmWristbandFragment"
             app:destination="@id/confirmWristbandFragment" />
         <action
-            android:id="@+id/action_scanForWristbandFragment_to_regiDataFragment"
-            app:destination="@id/regiDataFragment"
+            android:id="@+id/action_scanForWristbandFragment_to_HomeFragment"
+            app:destination="@+id/homeFragment"
             />
     </fragment>
     <fragment

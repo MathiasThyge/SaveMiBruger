@@ -48,11 +48,11 @@ class RegiDataFragment : Fragment() {
         view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
             createUser()
 
-            pluralInput("Allergier")
+            /*pluralInput("Allergier")
             pluralInput("Medicin")
             pluralInput("Other")
-            pluralInput("")
-
+            pluralInput("")*/
+            findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
             //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)       Use to control layout
         }
     }
@@ -80,10 +80,12 @@ class RegiDataFragment : Fragment() {
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
             return
         }
+
         if( currentUser != null ) {
             Log.d(logtag, "Length of CPR:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
 
             val uid = auth.currentUser?.uid.toString()
+
             val Navn = RegiData_ScrollView_ContraintLayout.regiDataName.text.toString()
             val PersId = RegiData_ScrollView_ContraintLayout.regiDataPersonalID.text.toString()
             Log.d(logtag, "Indtastet nav og cpr: " + Navn + " " + PersId)
