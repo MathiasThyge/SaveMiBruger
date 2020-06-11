@@ -131,6 +131,7 @@ class RegiDataFragment : Fragment() {
             }
             else -> findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
         }
+
         Log.d(logtag, "Liste er: " + list)
         if (list.size > 0) {
             database.child("users").child(uid).child("$input").setValue(list)
