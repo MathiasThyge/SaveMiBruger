@@ -27,42 +27,53 @@
 
         <TextView
             android:id="@+id/confirmconnected"
-            android:layout_width="218dp"
-            android:layout_height="31dp"
-            android:layout_marginTop="503dp"
+            android:layout_width="224dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="500dp"
             android:layout_marginBottom="190dp"
-            android:text="Armbånd tilsluttet"
-            android:textSize="24sp"
+            android:text="    Armbånd tilsluttet"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.333" />
 
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="36dp"
             android:layout_height="37dp"
-            android:layout_marginStart="317dp"
-            android:layout_marginLeft="317dp"
-            android:layout_marginTop="504dp"
+            android:layout_marginStart="330dp"
+            android:layout_marginLeft="330dp"
+            android:layout_marginTop="498dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginRight="50dp"
             android:layout_marginBottom="190dp"
             android:src="@drawable/tjekicon"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/backtoprofile"
+
             android:layout_width="307dp"
             android:layout_height="54dp"
             android:layout_marginTop="589dp"
             android:layout_marginBottom="88dp"
-            android:background="#FFFFFF"
-            android:text="Tilbage til  profil"
+            android:background="@drawable/inputbox"
+            android:checked="false"
+            android:text="Tilbage til profil"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
