@@ -6,13 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ToggleButton
 import androidx.navigation.fragment.findNavController
+import com.example.savemi.R.id.action_scanForWristbandFragment_to_HomeFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.fragment_registrer.*
+import kotlinx.coroutines.NonCancellable.cancel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+
 
 /**
  * A simple [Fragment] subclass.
@@ -20,26 +25,43 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ScanForWristbandFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private val beaconID = "c0efeb679e7f817c1443aa05b53d5703"
+    private val beaconMajor = 62521
+    private val beaconMinor = 408
 
-        view?.findViewById<Button>(R.id.scanwristband)?.setOnClickListener{
-            //signUp()  // uncomment to registrer
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<ToggleButton>(R.id.scanwristband).setOnClickListener{
+            //beginScanWristband()  // begin search of beaconID
             findNavController().navigate(R.id.action_scanForWristbandFragment_to_confirmWristbandFragment)
+            //navigate to next page layout testcode
         }
-        view?.findViewById<ImageView>(R.id.back_from_scanWristband)?.setOnClickListener {
-            findNavController().navigate(R.id.action_scanForWristbandFragment_to_regiDataFragment)
+        view.findViewById<ImageButton>(R.id.back_from_scanWristband).setOnClickListener {
+            findNavController().navigate(action_scanForWristbandFragment_to_HomeFragment)
+            } //leeds back from page
         }
 
-        }
+    /*private fun beginScanWristband() {
+     beaconID
+        if ( val baconId = null) {
+            MaterialAlertDialogBuilder(context)
+                //.setTitle(resources.getString(R.string.title))
+                .setMessage(resources.getString(R.string.Intet_armbånd_fundet_text))
+                .setNeutralButton(resources.getString(R.string.Fortryd)) { dialog, which ->
+                    // Respond to neutral button press
+                }
+                .setNegativeButton(resources.getString(R.string.Prøv_igen)) { dialog, which ->
+                    // Respond to negative button press
+                }
+                .setPositiveButton(resources.getString(R.string.OK)) { dialog, which ->
+                    // Respond to positive button press
+                }
+                .show() //show dialog alert message if their is no wristband nearby
+        TODO("Not yet implemented")
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +71,10 @@ class ScanForWristbandFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_scan_for_wristband, container, false)
     }
 
-    companion object {
+
+
+
+    /*companion object {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -67,5 +92,5 @@ class ScanForWristbandFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
+    } Tjek if this can be removed*/
 }
