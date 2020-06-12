@@ -31,6 +31,12 @@ class RegiDataFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
 
+
+    private var totalFields = 0
+    //private val scrollLayout = view?.findViewById<ConstraintLayout>(R.id.RegiData_ScrollView_ContraintLayout)
+
+
+
     // Create user in db
     data class User(
         var Navn: String = "",
@@ -54,6 +60,48 @@ class RegiDataFragment : Fragment() {
             pluralInput("")
             //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)       Use to control layout
         }
+
+        var addField = true
+        view.findViewById<ImageButton>(R.id.regiData_add).setOnClickListener(){
+            if(addField) {
+                val animationUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
+                regiData_overlay_view.startAnimation(animationUp)
+                regiData_overlay_view.visibility = LinearLayout.VISIBLE
+                addField = !addField
+            }
+        }
+        view.findViewById<ConstraintLayout>(R.id.RegiData_ScrollView_ContraintLayout).setOnClickListener(){
+            if (!addField) {
+                val animationDown = AnimationUtils.loadAnimation(context, R.anim.slide_down)
+                regiData_overlay_view.startAnimation(animationDown)
+                regiData_overlay_view.visibility = LinearLayout.GONE
+            addField = !addField
+            }
+        }
+
+        // Before when it was textView
+        /*view.findViewById<TextView>(R.id.regiData_overlay_add_Medicine).setOnClickListener() {
+            addMore()
+            Log.d(logtag, "Knap trykket")
+        }*/
+
+        // Test with button instead of textView
+        view.findViewById<Button>(R.id.regiData_overlay_add_Medicine).setOnClickListener() {
+            val linearLayout = view?.findViewById<LinearLayout>(R.id.RegiData_ScrollView_ConstraintLayout_2)
+
+
+            //val changeAddButton = view?.findViewById<ImageView>(regiData_add)
+            RegiData_ScrollView_ConstraintLayout_2.visibility = ConstraintLayout.VISIBLE
+            var newButton = EditText(activity)
+
+            var layoutparam : LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+
+            newButton.setText("Ny knap")
+
+            linearLayout?.addView(newButton, layoutparam)
+            //addMore()
+            Log.d(logtag, "Knap trykket")
+        }
     }
 
     private fun createUser(){
@@ -73,7 +121,7 @@ class RegiDataFragment : Fragment() {
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
             return
         }
-        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() >= 14 && RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() <= 11) {
+        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() >= 12 && RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() <= 9) {
             Log.d(logtag, "Length of CPR in:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv korrekt CPR"
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
@@ -128,7 +176,7 @@ class RegiDataFragment : Fragment() {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataOther.text.toString())
                 }
             }
-            else -> findNavController().navigate(R.id.action_regiDataFragment_to_homeFragment)
+            else -> findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
         }
 
         Log.d(logtag, "Liste er: " + list)
@@ -144,5 +192,48 @@ class RegiDataFragment : Fragment() {
                     }
                 }   // Fjerne-slut
         }
+    }
+
+
+    fun addMore(){
+        // Check amount of fields
+        Log.d(logtag, "Total: " + totalFields)
+        totalFields++
+        if(totalFields > 100) {
+            Log.d(logtag,"Total over 100" + totalFields)
+            return
+        }
+
+        // New edittext
+        //var editText  = EditText(this.context)
+
+        // UNCOMMENT FOR REAL TEST
+        //scrollLayout?.addView(editText)
+        //Log.d(logtag,"EditText tilføjet")
+
+
+        // Define parameters for ScrollLayout
+        //var layoutparam : ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,100)
+        //layoutparam.setMargins(30,20,30,0)
+        //layoutparam.width = ConstraintLayout.LayoutParams.MATCH_PARENT
+
+        // Test with LinearLayout
+        var layoutparam : LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,100)
+        layoutparam.setMargins(30,20,30,0)
+        layoutparam.width = LinearLayout.LayoutParams.MATCH_PARENT
+
+
+        // Set parameters
+        /*
+        editText.layoutParams = layoutparam
+        editText.id=totalFields
+        val hejsa = "Dette fungerer$totalFields"
+        editText.setText(hejsa)
+        editText.setTag("EditText" + totalFields)
+        */
+
+
+        // Test for knowing how to do
+
     }
 }
