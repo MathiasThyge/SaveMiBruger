@@ -45,6 +45,7 @@ class RegiDataFragment : Fragment() {
 
     override fun onViewCreated( view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
             createUser()
             pluralInput("Allergier")
@@ -52,24 +53,6 @@ class RegiDataFragment : Fragment() {
             pluralInput("Other")
             pluralInput("")
             //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)       Use to control layout
-        }
-
-        var addField = true
-        view.findViewById<ImageButton>(R.id.regiData_add).setOnClickListener(){
-            if(addField) {
-                val animationUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
-                regiData_overlay_view.startAnimation(animationUp)
-                regiData_overlay_view.visibility = FrameLayout.VISIBLE
-                addField = !addField
-            }
-        }
-        view.findViewById<ConstraintLayout>(R.id.RegiData_ScrollView_ContraintLayout).setOnClickListener(){
-            if (!addField) {
-                val animationDown = AnimationUtils.loadAnimation(context, R.anim.slide_down)
-                regiData_overlay_view.startAnimation(animationDown)
-                regiData_overlay_view.visibility = FrameLayout.GONE
-            addField = !addField
-            }
         }
     }
 
@@ -145,7 +128,7 @@ class RegiDataFragment : Fragment() {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataOther.text.toString())
                 }
             }
-            else -> findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
+            else -> findNavController().navigate(R.id.action_regiDataFragment_to_homeFragment)
         }
 
         Log.d(logtag, "Liste er: " + list)

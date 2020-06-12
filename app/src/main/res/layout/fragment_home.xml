@@ -13,26 +13,31 @@
         android:id="@+id/logout_button"
         android:layout_width="136dp"
         android:layout_height="40dp"
+        android:layout_marginStart="259dp"
+        android:layout_marginLeft="259dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="619dp"
         android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.974"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/home_profilepic"
         android:layout_width="120dp"
         android:layout_height="150dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="120dp"
-        android:layout_marginRight="120dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="200dp"
+        android:layout_marginRight="200dp"
         android:background="@drawable/profil_picture"
         android:src="@drawable/basic_picture"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,11 +56,16 @@
         android:id="@+id/home_settings"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:layout_marginStart="346dp"
+        android:layout_marginLeft="346dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
+        android:layout_marginBottom="676dp"
         android:src="@drawable/settings_24px_outlined"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -65,28 +75,37 @@
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="351dp"
+        android:layout_marginRight="351dp"
+        android:layout_marginBottom="676dp"
         android:src="@drawable/border_color_24px_outlined"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/home_headline"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_width="177dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="185dp"
+        android:layout_marginLeft="185dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginRight="67dp"
+        android:layout_marginBottom="493dp"
         android:background="@color/white"
         android:gravity="center|center_horizontal|center_vertical"
         android:text="Dine informationer"
         android:textColor="@android:color/black"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toStartOf="@+id/home_settings"
-        app:layout_constraintStart_toEndOf="@+id/home_edit"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ScrollView
         android:id="@+id/RegiData_ScrollView"

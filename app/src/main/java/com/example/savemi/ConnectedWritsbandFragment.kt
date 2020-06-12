@@ -1,46 +1,38 @@
 package com.example.savemi
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.CheckBox
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.fragment_confirm_wristband.*
-
-class ConfirmWristbandFragment : Fragment() {
-    private val beaconID = "c0efeb679e7f817c1443aa05b53d5703"
-    private val beaconMajor = 62521
-    private val beaconMinor = 408
 
 
+class ConnectedWritsbandFragment : Fragment() {
+    // TODO: Rename and change types of parameters
+    private var param1: String? = null
+    private var param2: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        view.findViewById<Button>(R.id.connectWristband).setOnClickListener{
+        view.findViewById<Button>(R.id.backtoprofile).setOnClickListener{
             //connectWristband()  // begin search of beaconID
-            findNavController().navigate(R.id.action_confirmWristbandFragment_to_connectedWritsbandFragment)
+            findNavController().navigate(R.id.action_connectedWritsbandFragment_to_HomeFragment)
             //navigate to next page layout testcode
         }
 
-        /*view.findViewById<ImageButton>(R.id.cancel).setOnClickListener {
-            findNavController().navigate(R.id.action_confirmWristbandFragment_to_HomeFragment)
-        } //cancel connection to wristband*/
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_confirm_wristband, container, false)
+        return inflater.inflate(R.layout.fragment_wristband_connected, container, false)
     }
+
 
 
 
@@ -51,16 +43,16 @@ class ConfirmWristbandFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment ScanForWristbandFragment.
+         * @return A new instance of fragment ConnectedWritsbandFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            ScanForWristbandFragment().apply {
+            ConnectedWritsbandFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
                 }
             }
-    } Tjek if this can be removed*/
+    }*/
 }

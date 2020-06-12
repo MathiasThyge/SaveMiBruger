@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -28,10 +29,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
+
         view.findViewById<Button>(R.id.logout_button).setOnClickListener {
             auth.signOut()
             findNavController().navigate(R.id.action_registrerFragement_to_loginFragment)
         }
-    }
+        view.findViewById<ImageView>(R.id.home_settings).setOnClickListener {
+              findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
 
-}
+        }
+
+
+    }
+    }
