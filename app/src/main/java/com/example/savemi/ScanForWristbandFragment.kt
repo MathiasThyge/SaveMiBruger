@@ -10,7 +10,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ToggleButton
 import androidx.navigation.fragment.findNavController
-import com.example.savemi.R.id.action_scanForWristbandFragment_to_HomeFragment
+import com.example.savemi.R.id.action_scanForWristbandFragment_to_settingsFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_registrer.*
 import kotlinx.coroutines.NonCancellable.cancel
@@ -39,8 +39,8 @@ class ScanForWristbandFragment : Fragment() {
             findNavController().navigate(R.id.action_scanForWristbandFragment_to_confirmWristbandFragment)
             //navigate to next page layout testcode
         }
-        view.findViewById<ImageButton>(R.id.back_from_scanWristband).setOnClickListener {
-            findNavController().navigate(action_scanForWristbandFragment_to_HomeFragment)
+        view.findViewById<ImageView>(R.id.back_from_scanWristband).setOnClickListener {
+            findNavController().navigate(R.id.action_scanForWristbandFragment_to_settingsFragment)
             } //leeds back from page
         }
 

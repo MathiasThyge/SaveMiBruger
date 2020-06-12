@@ -10,10 +10,12 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
@@ -45,6 +47,10 @@ class HomeFragment : Fragment() {
             auth.signOut()
             findNavController().navigate(R.id.action_registrerFragement_to_loginFragment)
         }
+        view.findViewById<ImageView>(R.id.home_settings).setOnClickListener {
+              findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
+
+        }
 
 
         home_ChangeProfilePic.setOnClickListener{
@@ -64,6 +70,7 @@ class HomeFragment : Fragment() {
             } else{ chooseImageFromGallery()} //system OS is < Marshmallow
         }
 
+    }
     }
 
     companion object {
