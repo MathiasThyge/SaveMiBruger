@@ -1,39 +1,33 @@
 package com.example.savemi
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ToggleButton
+import android.widget.CheckBox
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.fragment_confirm_wristband.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ConfirmWristbandFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ConfirmWristbandFragment : Fragment() {
     private val beaconID = "c0efeb679e7f817c1443aa05b53d5703"
     private val beaconMajor = 62521
     private val beaconMinor = 408
 
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         view.findViewById<Button>(R.id.connectWristband).setOnClickListener{
             //connectWristband()  // begin search of beaconID
             findNavController().navigate(R.id.action_confirmWristbandFragment_to_connectedWritsbandFragment)
             //navigate to next page layout testcode
         }
+
         /*view.findViewById<ImageButton>(R.id.cancel).setOnClickListener {
             findNavController().navigate(R.id.action_confirmWristbandFragment_to_HomeFragment)
         } //cancel connection to wristband*/
@@ -47,7 +41,6 @@ class ConfirmWristbandFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_confirm_wristband, container, false)
     }
-
 
 
 

@@ -49,11 +49,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
-        android:id="@+id/iBeaconIDcheck"
+        android:id="@+id/iBeaconcheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="518dp"
         android:layout_marginBottom="181dp"
+        android:checked="false"
         android:text="Armbånd nr"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
