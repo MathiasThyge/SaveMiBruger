@@ -129,7 +129,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/regiDataPersonalID" />
 
             <EditText
-                android:id="@+id/regiDataMedicin"
+                android:id="@+id/regiDataMedicin1"
+                android:tag="@+id/regiDataMedicin1"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="30dp"
@@ -148,8 +149,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/regiDataBlodType" />
 
+
+            <LinearLayout
+                android:id="@+id/regiData_add_Medicin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/regiDataMedicin1"
+
+
+                android:visibility="gone">
+            </LinearLayout>
+
+
             <EditText
-                android:id="@+id/regiDataAllergie"
+                android:id="@+id/regiDataAllergi1"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="30dp"
@@ -157,6 +173,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/inputbox"
                 android:ems="10"
                 android:hint="Allergi"
@@ -166,28 +183,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/regiDataAllergie2" />
+                app:layout_constraintTop_toBottomOf="@+id/regiData_add_Medicin" />
 
-            <EditText
-                android:id="@+id/regiDataAllergie2"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/inputbox"
-                android:ems="10"
-                android:hint="Allergi"
-                android:inputType="textPersonName"
-                android:paddingLeft="12dp"
-                android:textCursorDrawable="@android:color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+
+            <LinearLayout
+                android:id="@+id/regiData_add_Allergi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/regiDataMedicin" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/regiDataAllergi1"
 
+
+                android:visibility="gone">
+            </LinearLayout>
 
 
             <EditText
@@ -208,8 +218,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/regiDataAllergie" />
-
+                app:layout_constraintTop_toBottomOf="@+id/regiData_add_Allergi" />
 
             <EditText
                 android:id="@+id/regiDataEmergencyContactPhone"
@@ -232,7 +241,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/regiDataEmergencyContactName" />
 
             <EditText
-                android:id="@+id/regiDataOther"
+                android:id="@+id/regiDataOther1"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="30dp"
@@ -251,21 +260,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/regiDataEmergencyContactPhone" />
 
+
             <LinearLayout
-                android:id="@+id/RegiData_ScrollView_ConstraintLayout_2"
+                android:id="@+id/regiData_add_Other"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/regiDataOther"
-                app:layout_constraintBottom_toTopOf="@id/regiData_add"
+                app:layout_constraintTop_toBottomOf="@id/regiDataOther1"
+
 
                 android:visibility="gone">
-
-
             </LinearLayout>
-
 
 
             <ImageButton
@@ -281,11 +288,9 @@
                 android:tint="#075C00"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/regiDataOther" />
-
-
+                app:layout_constraintTop_toBottomOf="@id/regiData_add_Other"
+                app:layout_constraintBottom_toBottomOf="@id/RegiData_ScrollView_ContraintLayout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
 
     <Button
@@ -300,11 +305,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+
     <LinearLayout
-        android:showDividers="middle"
         android:id="@+id/regiData_overlay_view"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="225dp"
         android:background="@drawable/overlay"
         android:textCursorDrawable="@android:color/black"
         android:orientation="vertical"
@@ -330,11 +335,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@android:color/black"/>
 
         <Button
-            android:id="@+id/regiData_overlay_add_Medicine"
+            android:id="@+id/regiData_overlay_add_Medicin"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginStart="1dp"
@@ -347,8 +352,8 @@
             android:paddingLeft="30dp"
             android:text="Medicin"
             android:clickable="true" />
-<!--        <TextView
-            android:id="@+id/regiData_overlay_add_Allergies"
+        <Button
+            android:id="@+id/regiData_overlay_add_Allergi"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginStart="1dp"
@@ -361,7 +366,7 @@
             android:paddingLeft="30dp"
             android:text="Allergi"
             android:clickable="true" />
-        <TextView
+        <Button
             android:id="@+id/regiData_overlay_add_ICE"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -375,7 +380,7 @@
             android:paddingLeft="30dp"
             android:text="Kontakt personer"
             android:clickable="true" />
-        <TextView
+        <Button
             android:id="@+id/regiData_overlay_add_Other"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -389,11 +394,7 @@
             android:paddingLeft="30dp"
             android:text="Andre"
             android:clickable="true" />
-
-            -->
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

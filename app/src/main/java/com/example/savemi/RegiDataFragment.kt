@@ -1,27 +1,22 @@
 package com.example.savemi
 
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.animation.TranslateAnimation
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragment_regi_data.*
 import kotlinx.android.synthetic.main.fragment_regi_data.view.*
-import kotlin.concurrent.timerTask
+import kotlin.math.log
 
 /**
  * A simple [Fragment] subclass.
@@ -31,16 +26,27 @@ class RegiDataFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
 
+    // Used for animation state
+    private var addField = true
 
-    private var totalFields = 0
-    //private val scrollLayout = view?.findViewById<ConstraintLayout>(R.id.RegiData_ScrollView_ContraintLayout)
+    //  Amount of fields addded of each
+    private var totalMedicinFields = 1
+    private var totalAllergiFields = 1
+    private var totalOtherFields = 1
 
+    // ArrayLists for containing id's to check before adding to database
+    private var medicinIdList = ArrayList<EditText>()
+    private var allergiIdList = ArrayList<EditText>()
+    private var otherIdList = ArrayList<EditText>()
 
+    private var slideDownFields = ArrayList<Int>()
 
     // Create user in db
     data class User(
         var Navn: String = "",
         var PersId: String = ""//,
+
+        // For later use
         //var Donor: Boolean = FALSE,
         //var BeaconId: String?
     )
@@ -52,6 +58,8 @@ class RegiDataFragment : Fragment() {
     override fun onViewCreated( view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //slideDownFields.add(R.id.RegiData_ScrollView)
+
         view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
             createUser()
             pluralInput("Allergier")
@@ -61,46 +69,31 @@ class RegiDataFragment : Fragment() {
             //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)       Use to control layout
         }
 
-        var addField = true
+        //  Tested but then there needs to be added one for each editText view, and also for the new ones
+        view.findViewById<EditText>(R.id.regiDataName).setOnClickListener(){
+
+                slideDown()
+
+        }
+
         view.findViewById<ImageButton>(R.id.regiData_add).setOnClickListener(){
-            if(addField) {
-                val animationUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
-                regiData_overlay_view.startAnimation(animationUp)
-                regiData_overlay_view.visibility = LinearLayout.VISIBLE
-                addField = !addField
-            }
+            slideUp()
         }
         view.findViewById<ConstraintLayout>(R.id.RegiData_ScrollView_ContraintLayout).setOnClickListener(){
-            if (!addField) {
-                val animationDown = AnimationUtils.loadAnimation(context, R.anim.slide_down)
-                regiData_overlay_view.startAnimation(animationDown)
-                regiData_overlay_view.visibility = LinearLayout.GONE
-            addField = !addField
-            }
+            slideDown()
         }
 
-        // Before when it was textView
-        /*view.findViewById<TextView>(R.id.regiData_overlay_add_Medicine).setOnClickListener() {
-            addMore()
-            Log.d(logtag, "Knap trykket")
-        }*/
-
-        // Test with button instead of textView
-        view.findViewById<Button>(R.id.regiData_overlay_add_Medicine).setOnClickListener() {
-            val linearLayout = view?.findViewById<LinearLayout>(R.id.RegiData_ScrollView_ConstraintLayout_2)
-
-
-            //val changeAddButton = view?.findViewById<ImageView>(regiData_add)
-            RegiData_ScrollView_ConstraintLayout_2.visibility = ConstraintLayout.VISIBLE
-            var newButton = EditText(activity)
-
-            var layoutparam : LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-
-            newButton.setText("Ny knap")
-
-            linearLayout?.addView(newButton, layoutparam)
-            //addMore()
-            Log.d(logtag, "Knap trykket")
+        view.findViewById<Button>(R.id.regiData_overlay_add_Medicin).setOnClickListener() {
+            slideDown()
+            addMore("Medicin")
+        }
+        view.findViewById<Button>(R.id.regiData_overlay_add_Allergi).setOnClickListener() {
+            slideDown()
+            addMore("Allergi")
+        }
+        view.findViewById<Button>(R.id.regiData_overlay_add_Other).setOnClickListener() {
+            slideDown()
+            addMore("Other")
         }
     }
 
@@ -152,88 +145,176 @@ class RegiDataFragment : Fragment() {
         database = Firebase.database.reference
         val uid = auth.currentUser?.uid.toString()
 
+        // Test for finding out how to get string from new editText
+        /*
+        Log.d(logtag,   "Array " + medicinIdList)
+        for (newEditText in medicinIdList) {
+            Log.d(logtag, "Array string - " + newEditText.text.toString())
+            Log.d(logtag,"Antal felter " + totalMedicinFields)
+
+        }
+        */
         when (input) {
-            "Allergier" -> {
-                if (RegiData_ScrollView_ContraintLayout.regiDataAllergie.text.toString().isEmpty() ||
-                    RegiData_ScrollView_ContraintLayout.regiDataAllergie2.text.toString().isEmpty()) {
+            "Medicin" -> {
+                if (totalMedicinFields <= 1 && RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
                     return
                 } else {
-                    list.add(RegiData_ScrollView_ContraintLayout.regiDataAllergie.text.toString())
-                    list.add(RegiData_ScrollView_ContraintLayout.regiDataAllergie2.text.toString())
+                    list.add(RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString())
+                }
+
+                // If added field, first must be filled - dont know how to do for the others
+                if (totalMedicinFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
+                    RegiData_ScrollView_ContraintLayout.regiDataMedicin1.error =
+                        "Udfyld venligst det første felt inden"
+                    RegiData_ScrollView_ContraintLayout.regiDataMedicin1.requestFocus()
+                    return
+                } else {
+                    for (newEditText in medicinIdList){
+                        list.add(newEditText.text.toString())
+                        Log.d(logtag,"Gennemlest tilføjede medicin: " + newEditText.text.toString())
+                    }
                 }
             }
-            "Medicin" -> {
-                if (RegiData_ScrollView_ContraintLayout.regiDataMedicin.text.toString().isEmpty()) {
+            "Allergier" -> {
+                if (totalAllergiFields <= 1 && RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
                     return
                 } else {
-                    list.add(RegiData_ScrollView_ContraintLayout.regiDataMedicin.text.toString())
+                    list.add(RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString())
+                }
+
+                // If added field, first must be filled - dont know how to do for the others
+                if (totalAllergiFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
+                    RegiData_ScrollView_ContraintLayout.regiDataAllergi1.error =
+                        "Udfyld venligst det første felt inden"
+                    RegiData_ScrollView_ContraintLayout.regiDataAllergi1.requestFocus()
+                    return
+                } else {
+                    for (newEditText in allergiIdList){
+                        list.add(newEditText.text.toString())
+                        Log.d(logtag,"Gennemlest tilføjede allergi: " + newEditText.text.toString())
+                    }
                 }
             }
             "Other" -> {
-                if (RegiData_ScrollView_ContraintLayout.regiDataOther.text.toString().isEmpty()) {
+                if (totalOtherFields <= 1 && RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
                     return
                 } else {
-                    list.add(RegiData_ScrollView_ContraintLayout.regiDataOther.text.toString())
+                    list.add(RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString())
+                }
+
+                // If added field, first must be filled - dont know how to do for the others
+                if (totalOtherFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
+                    RegiData_ScrollView_ContraintLayout.regiDataOther1.error =
+                        "Udfyld venligst det første felt først"
+                    RegiData_ScrollView_ContraintLayout.regiDataOther1.requestFocus()
+                    return
+                } else {
+                    for (newEditText in otherIdList){
+                        list.add(newEditText.text.toString())
+                        Log.d(logtag,"Gennemlest tilføjede andre: " + newEditText.text.toString())
+                    }
                 }
             }
-            else -> findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
+            //else -> findNavController().navigate(R.id.action_regiDataFragment_to_ScanForWristbandFragment)
         }
 
         Log.d(logtag, "Liste er: " + list)
         if (list.size > 0) {
             database.child("users").child(uid).child("$input").setValue(list)
                 //Dette kan fjernes
-                .addOnCompleteListener() { task ->
+                /*.addOnCompleteListener() { task ->
                     if (task.isSuccessful) {
                         Log.d(logtag, "Liste gennemlæst")
                         //findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
                     } else {
                         Toast.makeText(activity, "Der skete en fejl", Toast.LENGTH_SHORT).show()
                     }
-                }   // Fjerne-slut
+                }*/   // Fjerne-slut
         }
     }
 
+    private fun addMore( choosen: String ){
+        var linearLayout = LinearLayout(activity)
+        var newEditText = EditText(activity)
 
-    fun addMore(){
-        // Check amount of fields
-        Log.d(logtag, "Total: " + totalFields)
-        totalFields++
-        if(totalFields > 100) {
-            Log.d(logtag,"Total over 100" + totalFields)
-            return
+        // Calculate pixel value corresponding to wanted dp-value as parameter
+        fun calculateDp( dpValue : Int ) : Int {
+            var dpRatio = view?.resources!!.displayMetrics.density
+            //  Check if value is correct
+            //  Log.d(logtag, "Method Margin" + dpValue * dpRatio.toInt())
+            return dpValue * dpRatio.toInt()
         }
 
-        // New edittext
-        //var editText  = EditText(this.context)
+        //  Find corresponding linearLayout after choosen field to add
+        when(choosen){
+            "Medicin"   -> {
+                totalMedicinFields++
+                if(totalMedicinFields > 5) {
+                    Log.d(logtag, "TotalMedicinFields over 5 er - $totalMedicinFields")
+                    Toast.makeText(activity,"Du har nået grænsen for antal medicin felter",Toast.LENGTH_SHORT).show()
+                    return
+                }
+                linearLayout = requireView().findViewById<LinearLayout>(R.id.regiData_add_Medicin)
+                regiData_add_Medicin.visibility = LinearLayout.VISIBLE
+                newEditText.id = totalMedicinFields
 
-        // UNCOMMENT FOR REAL TEST
-        //scrollLayout?.addView(editText)
-        //Log.d(logtag,"EditText tilføjet")
+                medicinIdList.add(newEditText)
+            }
+            "Allergi"   -> {
+                totalAllergiFields++
+                if(totalAllergiFields > 5) {
+                    Log.d(logtag, "TotalAllergiFields over 5 er - $totalAllergiFields")
+                    Toast.makeText(activity,"Du har nået grænsen for antal allergi felter",Toast.LENGTH_SHORT).show()
+                    return
+                }
+                linearLayout = requireView().findViewById<LinearLayout>(R.id.regiData_add_Allergi)
+                regiData_add_Allergi.visibility = LinearLayout.VISIBLE
+                newEditText.id = totalAllergiFields
 
+                allergiIdList.add(newEditText)
+            }
+            "Other"     -> {
+                totalOtherFields++
+                if(totalOtherFields > 5) {
+                    Log.d(logtag, "TotalOtherFields over 5 er - $totalOtherFields")
+                    Toast.makeText(activity,"Du har nået grænsen for antal andre felter",Toast.LENGTH_SHORT).show()
+                    return
+                }
+                linearLayout = requireView().findViewById<LinearLayout>(R.id.regiData_add_Other)
+                regiData_add_Other.visibility = LinearLayout.VISIBLE
+                newEditText.id = totalOtherFields
 
-        // Define parameters for ScrollLayout
-        //var layoutparam : ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,100)
-        //layoutparam.setMargins(30,20,30,0)
-        //layoutparam.width = ConstraintLayout.LayoutParams.MATCH_PARENT
+                otherIdList.add(newEditText)
+            }
+        }
 
-        // Test with LinearLayout
-        var layoutparam : LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,100)
-        layoutparam.setMargins(30,20,30,0)
-        layoutparam.width = LinearLayout.LayoutParams.MATCH_PARENT
+        var layoutParam : LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+        layoutParam.height = calculateDp(50)
+        layoutParam.setMargins(calculateDp(30),calculateDp(20),calculateDp(30),0)
+        newEditText.setPadding(calculateDp(12),0,0,0)
+        newEditText.setHint(choosen)
+        newEditText.setEms(10)
+        newEditText.setBackgroundResource(R.drawable.inputbox)
 
+        linearLayout?.addView(newEditText, layoutParam)
+    }
+    // Animation method
+    private fun slideUp(){
+        if(addField) {
+            val animationUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
+            regiData_overlay_view.startAnimation(animationUp)
+            regiData_overlay_view.visibility = LinearLayout.VISIBLE
+            addField = !addField
+        }
+    }
 
-        // Set parameters
-        /*
-        editText.layoutParams = layoutparam
-        editText.id=totalFields
-        val hejsa = "Dette fungerer$totalFields"
-        editText.setText(hejsa)
-        editText.setTag("EditText" + totalFields)
-        */
-
-
-        // Test for knowing how to do
-
+    // Animation method
+    private fun slideDown(){
+        if (!addField) {
+            val animationDown = AnimationUtils.loadAnimation(context, R.anim.slide_down)
+            regiData_overlay_view.startAnimation(animationDown)
+            regiData_overlay_view.visibility = LinearLayout.GONE
+            addField = !addField
+        }
     }
 }
