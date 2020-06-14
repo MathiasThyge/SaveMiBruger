@@ -25,6 +25,10 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_settingsFragment_to_scanForWristbandFragment)
         }
 
+        view.findViewById<Button>(R.id.permissionsbutton).setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_permissionsFragment)
+        }
+
         view.findViewById<ImageView>(R.id.back_from_settings).setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_HomeFragment)
         } //leeds back from page

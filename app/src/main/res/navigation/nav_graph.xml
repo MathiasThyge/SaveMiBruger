@@ -98,6 +98,18 @@
         <action
             android:id="@+id/action_settingsFragment_to_HomeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_permissionsFragment"
+            app:destination="@id/permissionsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/permissionsFragment"
+        android:name="com.example.savemi.PermissionsFragment"
+        android:label="fragment_permissions"
+        tools:layout="@layout/fragment_permissions" >
+        <action
+            android:id="@+id/action_permissionsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
 
 
