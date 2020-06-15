@@ -4,11 +4,13 @@ package com.example.savemi
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -21,6 +23,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.savemi.R.id.action_regiDataFragment_to_scanForWristbandFragment
 import kotlin.math.log
 
+
 /**
  * A simple [Fragment] subclass.
  */
@@ -32,6 +35,9 @@ class RegiDataFragment : Fragment() {
     // Used for animation state
     private var addField = true
 
+    // If input is wrong
+    private var fejlInput = false
+
     //  Amount of fields addded of each
     private var totalMedicinFields = 1
     private var totalAllergiFields = 1
@@ -42,17 +48,21 @@ class RegiDataFragment : Fragment() {
     private var allergiIdList = ArrayList<EditText>()
     private var otherIdList = ArrayList<EditText>()
 
-    private var slideDownFields = ArrayList<Int>()
+
 
     // Create user in db
     data class User(
         var Navn: String = "",
         var PersId: String = ""//,
-
-        // For later use
-        //var Donor: Boolean = FALSE,
-        //var BeaconId: String?
     )
+
+    /* Create beacon in database
+    data class Bruger (
+        var userUid : String = ""
+    )
+    val bruger = Bruger(uid)
+    database.child("ibeacon").child( "hejjegerbeaconuid01" ).setValue(bruger)
+    */
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_regi_data,container,false)
@@ -65,25 +75,62 @@ class RegiDataFragment : Fragment() {
 
         view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
             createUser()
+            otherInput( "Blodtype" )
+            otherInput("Donor")
             pluralInput("Allergier")
             pluralInput("Medicin")
-            pluralInput("Other")
+            pluralInput("Andre")
             pluralInput("")
-            //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)       Use to control layout
         }
-
-        //  Tested but then there needs to be added one for each editText view, and also for the new ones
-        view.findViewById<EditText>(R.id.regiDataName).setOnClickListener(){
-
-                slideDown()
-
-        }
-
         view.findViewById<ImageButton>(R.id.regiData_add).setOnClickListener(){
             slideUp()
         }
         view.findViewById<ConstraintLayout>(R.id.RegiData_ScrollView_ContraintLayout).setOnClickListener(){
             slideDown()
+        }
+        var slideDownEditText = ArrayList<EditText>()
+        slideDownEditText.add(view?.findViewById<EditText>(R.id.regiDataName))
+        slideDownEditText.add(view?.findViewById<EditText>(R.id.regiDataPersonalID))
+        slideDownEditText.add(view?.findViewById<EditText>(R.id.regiDataMedicin1))
+        slideDownEditText.add(view?.findViewById<EditText>(R.id.regiDataAllergi1))
+        slideDownEditText.add(view?.findViewById<EditText>(R.id.regiDataOther1))
+
+        var slideDownLinearLayout = ArrayList<LinearLayout>()
+        slideDownLinearLayout.add(view?.findViewById<LinearLayout>(R.id.regiData_add_Medicin))
+        slideDownLinearLayout.add(view?.findViewById<LinearLayout>(R.id.regiData_add_Allergi))
+        slideDownLinearLayout.add(view?.findViewById<LinearLayout>(R.id.regiData_add_Other))
+
+        var slideDownSpinner = ArrayList<Spinner>()
+        slideDownSpinner.add(view?.findViewById<Spinner>(R.id.regiDataBlodType))
+        slideDownSpinner.add(view?.findViewById<Spinner>(R.id.regiDataDonor))
+
+        fun slideAllEditTextDown ( pressed :  EditText) {
+            pressed.setOnTouchListener(object : View.OnTouchListener {
+                override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                    when (event?.action) {
+                        MotionEvent.ACTION_UP -> slideDown()
+                    }
+                    return view?.onTouchEvent(event) ?: true
+                }
+            })
+        }
+        fun slideAllSpinnerDown ( pressed :  Spinner) {
+            pressed.setOnTouchListener(object : View.OnTouchListener {
+                override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                    when (event?.action) {
+                        MotionEvent.ACTION_UP -> slideDown()
+                    }
+                    return view?.onTouchEvent(event) ?: true
+                }
+            })
+        }
+        for ( EditText in slideDownEditText ) {
+            Log.d(logtag, "EditText SlideDown")
+            slideAllEditTextDown( EditText )
+        }
+        for ( Spinner in slideDownSpinner ) {
+            Log.d(logtag, "Spinner SlideDown")
+            slideAllSpinnerDown( Spinner )
         }
 
         view.findViewById<Button>(R.id.regiData_overlay_add_Medicin).setOnClickListener() {
@@ -109,20 +156,24 @@ class RegiDataFragment : Fragment() {
         if (RegiData_ScrollView_ContraintLayout.regiDataName.text.toString().isEmpty()) {
             RegiData_ScrollView_ContraintLayout.regiDataName.error = "Indtast navn"
             RegiData_ScrollView_ContraintLayout.regiDataName.requestFocus()
+            fejlInput = true
             return
         }
 
         if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.text.toString().isEmpty()) {
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv CPR"
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
+            fejlInput = true
             return
         }
         if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() >= 12 && RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() <= 9) {
             Log.d(logtag, "Length of CPR in:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv korrekt CPR"
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
+            fejlInput = true
             return
-        }
+        }   else fejlInput = false
+
         if( currentUser != null ) {
             Log.d(logtag, "Length of CPR:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
 
@@ -132,6 +183,7 @@ class RegiDataFragment : Fragment() {
             Log.d(logtag, "Indtastet nav og cpr: " + Navn + " " + PersId)
             val user = User( Navn, PersId )
             Log.d(logtag, "User: " + user)
+
             database.child("users").child( uid ).setValue(user).addOnCompleteListener(){ task ->
                 if( task.isSuccessful){
                     //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)
@@ -149,15 +201,15 @@ class RegiDataFragment : Fragment() {
         val uid = auth.currentUser?.uid.toString()
 
         // Test for finding out how to get string from new editText
-        /*
-        Log.d(logtag,   "Array " + medicinIdList)
+        /*Log.d(logtag,   "Array " + medicinIdList)
         for (newEditText in medicinIdList) {
             Log.d(logtag, "Array string - " + newEditText.text.toString())
             Log.d(logtag,"Antal felter " + totalMedicinFields)
+            Log.d(logtag,"Id felter: " + newEditText.id)
+        }*/
 
-        }
-        */
         when (input) {
+
             "Medicin" -> {
                 if (totalMedicinFields <= 1 && RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
                     return
@@ -170,11 +222,14 @@ class RegiDataFragment : Fragment() {
                     RegiData_ScrollView_ContraintLayout.regiDataMedicin1.error =
                         "Udfyld venligst det første felt inden"
                     RegiData_ScrollView_ContraintLayout.regiDataMedicin1.requestFocus()
+                    fejlInput = true
                     return
-                } else {
+                } else if( totalMedicinFields > 1){
                     for (newEditText in medicinIdList){
-                        list.add(newEditText.text.toString())
-                        Log.d(logtag,"Gennemlest tilføjede medicin: " + newEditText.text.toString())
+                        if (!newEditText.text.toString().isEmpty()){
+                            list.add(newEditText.text.toString())
+                            Log.d(logtag,"Gennemlest tilføjede medicin: " + newEditText.text.toString())
+                        } else (Log.d(logtag, "andet felt er tomt"))
                     }
                 }
             }
@@ -190,15 +245,18 @@ class RegiDataFragment : Fragment() {
                     RegiData_ScrollView_ContraintLayout.regiDataAllergi1.error =
                         "Udfyld venligst det første felt inden"
                     RegiData_ScrollView_ContraintLayout.regiDataAllergi1.requestFocus()
+                    fejlInput = true
                     return
-                } else {
+                } else if( totalAllergiFields > 1){
                     for (newEditText in allergiIdList){
-                        list.add(newEditText.text.toString())
-                        Log.d(logtag,"Gennemlest tilføjede allergi: " + newEditText.text.toString())
+                        if (!newEditText.text.toString().isEmpty()){
+                            list.add(newEditText.text.toString())
+                            Log.d(logtag,"Gennemlest tilføjede allergi: " + newEditText.text.toString())
+                        } else (Log.d(logtag, "andet felt er tomt"))
                     }
                 }
             }
-            "Other" -> {
+            "Andre" -> {
                 if (totalOtherFields <= 1 && RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
                     return
                 } else {
@@ -210,31 +268,53 @@ class RegiDataFragment : Fragment() {
                     RegiData_ScrollView_ContraintLayout.regiDataOther1.error =
                         "Udfyld venligst det første felt først"
                     RegiData_ScrollView_ContraintLayout.regiDataOther1.requestFocus()
+                    fejlInput = true
                     return
-                } else {
+                } else if( totalOtherFields > 1){
                     for (newEditText in otherIdList){
-                        list.add(newEditText.text.toString())
-                        Log.d(logtag,"Gennemlest tilføjede andre: " + newEditText.text.toString())
+                        if (!newEditText.text.toString().isEmpty()){
+                            list.add(newEditText.text.toString())
+                            Log.d(logtag,"Gennemlest tilføjede andre: " + newEditText.text.toString())
+                        } else (Log.d(logtag, "andet felt er tomt"))
                     }
                 }
             }
-            else -> findNavController().navigate(action_regiDataFragment_to_scanForWristbandFragment)
+            else -> if(fejlInput == false) findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
         }
 
         Log.d(logtag, "Liste er: " + list)
         if (list.size > 0) {
-            database.child("users").child(uid).child("$input").setValue(list)
-                //Dette kan fjernes
-                /*.addOnCompleteListener() { task ->
-                    if (task.isSuccessful) {
-                        Log.d(logtag, "Liste gennemlæst")
-                        //findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
-                    } else {
-                        Toast.makeText(activity, "Der skete en fejl", Toast.LENGTH_SHORT).show()
-                    }
-                }*/   // Fjerne-slut
+            database.child("users").child(uid).child(input).setValue(list)
         }
     }
+
+    private fun otherInput ( input: String ) {
+        auth = FirebaseAuth.getInstance()
+        database = Firebase.database.reference
+        val uid = auth.currentUser?.uid.toString()
+
+        when(input) {
+            "Blodtype" -> {
+                var spinner = view?.findViewById<Spinner>(R.id.regiDataBlodType)?.selectedItem
+                if (spinner.toString() == input ){
+                    return
+                } else {
+                    database.child("users").child(uid).child(input).setValue(spinner)
+                }
+
+            }
+            "Donor" -> {
+                var spinner = view?.findViewById<Spinner>(R.id.regiDataDonor)?.selectedItem
+                if (spinner.toString().equals(input)){
+                    database.child("users").child(uid).child(input).setValue("Nej")
+                    return
+                } else {
+                    database.child("users").child(uid).child(input).setValue(spinner)
+                }
+            }
+        }
+    }
+
 
     private fun addMore( choosen: String ){
         var linearLayout = LinearLayout(activity)
@@ -276,7 +356,7 @@ class RegiDataFragment : Fragment() {
 
                 allergiIdList.add(newEditText)
             }
-            "Other"     -> {
+            "Andre"     -> {
                 totalOtherFields++
                 if(totalOtherFields > 5) {
                     Log.d(logtag, "TotalOtherFields over 5 er - $totalOtherFields")
@@ -290,7 +370,14 @@ class RegiDataFragment : Fragment() {
                 otherIdList.add(newEditText)
             }
         }
-
+        newEditText.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_UP -> slideDown()
+                }
+                return view?.onTouchEvent(event) ?: true
+            }
+        })
         var layoutParam : LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
         layoutParam.height = calculateDp(50)
         layoutParam.setMargins(calculateDp(30),calculateDp(20),calculateDp(30),0)
@@ -303,21 +390,21 @@ class RegiDataFragment : Fragment() {
     }
     // Animation method
     private fun slideUp(){
-        if(addField) {
+        if(addField == true) {
             val animationUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
             regiData_overlay_view.startAnimation(animationUp)
             regiData_overlay_view.visibility = LinearLayout.VISIBLE
-            addField = !addField
+            addField = false
         }
     }
 
     // Animation method
     private fun slideDown(){
-        if (!addField) {
+        if (addField == false) {
             val animationDown = AnimationUtils.loadAnimation(context, R.anim.slide_down)
             regiData_overlay_view.startAnimation(animationDown)
             regiData_overlay_view.visibility = LinearLayout.GONE
-            addField = !addField
+            addField = true
         }
     }
 }

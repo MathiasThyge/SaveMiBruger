@@ -108,7 +108,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/regiDataName" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/regiDataBlodType"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -118,19 +118,40 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginRight="30dp"
                 android:background="@drawable/inputbox"
+                android:dropDownWidth="match_parent"
+                android:entries="@array/blod_arrays"
                 android:ems="10"
-                android:hint="Blodtype"
-                android:inputType="textPersonName"
                 android:paddingLeft="12dp"
                 android:textCursorDrawable="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/regiDataPersonalID" />
+                app:layout_constraintTop_toBottomOf="@+id/regiDataPersonalID">
+            </Spinner>
+
+            <Spinner
+                android:id="@+id/regiDataDonor"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/inputbox"
+                android:dropDownWidth="match_parent"
+                android:entries="@array/donor_arrays"
+                android:ems="10"
+                android:paddingLeft="12dp"
+                android:textCursorDrawable="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/regiDataBlodType">
+            </Spinner>
 
             <EditText
                 android:id="@+id/regiDataMedicin1"
-                android:tag="@+id/regiDataMedicin1"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="30dp"
@@ -147,7 +168,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/regiDataBlodType" />
+                app:layout_constraintTop_toBottomOf="@+id/regiDataDonor" />
 
 
             <LinearLayout
@@ -160,7 +181,8 @@
                 app:layout_constraintTop_toBottomOf="@id/regiDataMedicin1"
 
 
-                android:visibility="gone">
+                android:visibility="visible">
+
             </LinearLayout>
 
 
@@ -290,6 +312,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/regiData_add_Other"
                 app:layout_constraintBottom_toBottomOf="@id/RegiData_ScrollView_ContraintLayout" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -328,10 +352,10 @@
             android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp"
             android:background="@drawable/button"
+            android:clickable="true"
             android:gravity="center_vertical"
             android:paddingLeft="30dp"
-            android:text="Vælg tilføjelser"
-            android:clickable="true"/>
+            android:text="Vælg tilføjelser" />
 
         <View
             android:layout_width="match_parent"
@@ -347,8 +371,8 @@
             android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp"
-            android:gravity="center_vertical"
             android:background="@drawable/button"
+            android:gravity="center_vertical"
             android:paddingLeft="30dp"
             android:text="Medicin"
             android:clickable="true" />

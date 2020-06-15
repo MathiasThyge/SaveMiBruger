@@ -10,4 +10,23 @@
     <string name="Prøv_igen">tryconnectagain</string>
     <string name="OK">ok</string>
     <string name="Fortryd">cancel</string>
+
+
+
+    <string-array name="donor_arrays">
+        <item>Donor</item>
+        <item>Ja</item>
+        <item>Nej</item>
+    </string-array>
+    <string-array name="blod_arrays">
+        <item>Blodtype</item>
+        <item>A positiv</item>
+        <item>A negativ</item>
+        <item>B positiv</item>
+        <item>B negativ</item>
+        <item>AB positiv</item>
+        <item>AB negativ</item>
+        <item>0 positiv</item>
+        <item>0 negativ</item>
+    </string-array>
 </resources>
