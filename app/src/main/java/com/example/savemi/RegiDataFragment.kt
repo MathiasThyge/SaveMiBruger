@@ -10,12 +10,15 @@ import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_regi_data.*
 import kotlinx.android.synthetic.main.fragment_regi_data.view.*
+import androidx.navigation.fragment.findNavController
+import com.example.savemi.R.id.action_regiDataFragment_to_scanForWristbandFragment
 import kotlin.math.log
 
 /**
@@ -215,7 +218,7 @@ class RegiDataFragment : Fragment() {
                     }
                 }
             }
-            //else -> findNavController().navigate(R.id.action_regiDataFragment_to_ScanForWristbandFragment)
+            else -> findNavController().navigate(action_regiDataFragment_to_scanForWristbandFragment)
         }
 
         Log.d(logtag, "Liste er: " + list)

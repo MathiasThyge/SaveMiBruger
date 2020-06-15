@@ -44,6 +44,7 @@ class RegistrerFragment : Fragment() {
     }
 
     private fun updateUI(currentUser: FirebaseUser?){
+        Log.d(logtag,"user: $currentUser")
         if(currentUser!=null){
             Log.d(logtag,"updateUI before navcontroller")
             findNavController().navigate(R.id.action_registrerFragment_to_regiDataFragment)

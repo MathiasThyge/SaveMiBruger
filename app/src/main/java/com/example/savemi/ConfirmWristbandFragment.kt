@@ -24,7 +24,7 @@ class ConfirmWristbandFragment : Fragment() {
 
         view.findViewById<Button>(R.id.connectWristband).setOnClickListener{
             //connectWristband()  // begin search of beaconID
-            findNavController().navigate(R.id.action_confirmWristbandFragment_to_connectedWritsbandFragment)
+            //findNavController().navigate(R.id.action_confirmWristbandFragment_to_connectedWritsbandFragment)
             //navigate to next page layout testcode
         }
 
