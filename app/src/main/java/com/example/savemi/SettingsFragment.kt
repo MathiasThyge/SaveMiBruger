@@ -30,7 +30,7 @@ class SettingsFragment : Fragment() {
         }
 
         view.findViewById<ImageView>(R.id.back_from_settings).setOnClickListener {
-            findNavController().navigate(R.id.action_settingsFragment_to_HomeFragment)
+            findNavController().navigateUp()
         } //leeds back from page
     }
 
