@@ -14,19 +14,19 @@
 
 
     <string-array name="donor_arrays">
-        <item>Donor</item>
-        <item>Ja</item>
-        <item>Nej</item>
+        <item><font fgcolor='@android:color/darker_gray' size='18'>Donor</font></item>
+        <item><font size='18'>Ja</font></item>
+        <item><font size='18'>Nej</font></item>
     </string-array>
     <string-array name="blod_arrays">
-        <item>Blodtype</item>
-        <item>A positiv</item>
-        <item>A negativ</item>
-        <item>B positiv</item>
-        <item>B negativ</item>
-        <item>AB positiv</item>
-        <item>AB negativ</item>
-        <item>0 positiv</item>
-        <item>0 negativ</item>
+        <item><font color='@android:color/darker_gray' size='18'>Blodtype</font></item>
+        <item><font size='18'>A positiv</font></item>
+        <item><font size='18'>A negativ</font></item>
+        <item><font size='18'>B positiv</font></item>
+        <item><font size='18'>B negativ</font></item>
+        <item><font size='18'>AB positiv</font></item>
+        <item><font size='18'>AB negativ</font></item>
+        <item><font size='18'>0 positiv</font></item>
+        <item><font size='18'>0 negativ</font></item>
     </string-array>
 </resources>

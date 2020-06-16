@@ -102,9 +102,9 @@ private val logtag = ScanForWristbandFragment::class.simpleName
          super.onCreate(savedInstanceState)
          scanwristband.setOnClickListener{
              //var
- 
+
          }
- 
+
      }*/
 
 
