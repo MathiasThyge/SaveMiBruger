@@ -78,19 +78,33 @@ class RegistrerFragment : Fragment() {
             regi_password.requestFocus()
             return
         }
+        if ( regi_password.text.toString().equals(regi_password.text.toString().toLowerCase()) ||
+             regi_password.text.toString().equals(regi_password.text.toString().toUpperCase()) ||
+            !regi_password.text.toString().matches(".*\\d+.*".toRegex())){
 
-        auth.createUserWithEmailAndPassword(regi_email.text.toString(), regi_password.text.toString()).addOnCompleteListener() { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = auth.currentUser
-                    Log.d(logtag,"oprettet$user")
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(activity, "Registrering fejlede, prøv igen efter noget tid", Toast.LENGTH_SHORT).show()
-                    updateUI(null)
-                }
+            regi_password.error ="Skal mindst indeholde stort og småt bogstav og et tal"
+            regi_password.requestFocus()
+            return
+        }
+        if ( !regi_password.text.toString().equals(regi_password_repeat.text.toString()) ||
+              regi_password_repeat.text.toString().isEmpty() ){
+            regi_password_repeat.error ="Skal være identisk med det angivne kodeord"
+            regi_password_repeat.requestFocus()
+            return
+        }
+            auth.createUserWithEmailAndPassword(regi_email.text.toString(), regi_password.text.toString()).addOnCompleteListener() { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        val user = auth.currentUser
+                        Log.d(logtag,"oprettet$user")
+                        updateUI(user)
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(activity, "Registrering fejlede, prøv igen efter noget tid", Toast.LENGTH_SHORT).show()
+                        updateUI(null)
+                    }
             }
+
     }
 
 }
