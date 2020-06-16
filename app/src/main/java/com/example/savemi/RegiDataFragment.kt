@@ -126,7 +126,7 @@ class RegiDataFragment : Fragment() {
         }
         view.findViewById<Button>(R.id.regiData_overlay_add_Allergi).setOnClickListener() {
             slideDown()
-            addMore("Allergi")
+            addMore("Allergier")
         }
         view.findViewById<Button>(R.id.regiData_overlay_add_Other).setOnClickListener() {
             slideDown()
@@ -260,7 +260,7 @@ class RegiDataFragment : Fragment() {
                     RegiData_ScrollView_ContraintLayout.regiDataOther1.requestFocus()
                     fejlInput = true
                     return
-                } else if( totalOtherFields > 1){
+                } else if( totalOtherFields > 1 ){
                     for (newEditText in otherIdList){
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
@@ -312,7 +312,7 @@ class RegiDataFragment : Fragment() {
             else -> if(fejlInput == false) findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
         }
         when (input) {
-            "Medicin","Allergi","Andet" -> {
+            "Medicin","Allergier","Andet" -> {
                 Log.d(logtag, "Liste er: " + list)
                 if (list.size > 0) {
                     database.child("users").child(uid).child(input).setValue(list)
@@ -348,7 +348,7 @@ class RegiDataFragment : Fragment() {
 
                 medicinIdList.add(newEditText)
             }
-            "Allergi"   -> {
+            "Allergier"   -> {
                 totalAllergiFields++
                 if(totalAllergiFields > 5) {
                     Log.d(logtag, "TotalAllergiFields over 5 er - $totalAllergiFields")
