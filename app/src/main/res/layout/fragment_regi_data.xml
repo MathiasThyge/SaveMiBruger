@@ -61,6 +61,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RegiData_subtitle"
+        app:layout_constraintBottom_toTopOf="@id/regiData_overlay_view"
         app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -126,7 +127,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/regiDataPersonalID">
+                app:layout_constraintTop_toBottomOf="@+id/regiDataPersonalID" >
             </Spinner>
 
             <Spinner
@@ -223,7 +224,7 @@
 
 
             <EditText
-                android:id="@+id/regiDataEmergencyContactName"
+                android:id="@+id/regiDataKontaktNavn"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="30dp"
@@ -233,7 +234,7 @@
                 android:layout_marginRight="30dp"
                 android:background="@drawable/inputbox"
                 android:ems="10"
-                android:hint="ICE Navn"
+                android:hint="Kontaktperson navn"
                 android:inputType="textPersonName"
                 android:paddingLeft="12dp"
                 android:textCursorDrawable="@android:color/black"
@@ -243,7 +244,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/regiData_add_Allergi" />
 
             <EditText
-                android:id="@+id/regiDataEmergencyContactPhone"
+                android:id="@+id/regiDataKontaktNummer"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="30dp"
@@ -253,14 +254,14 @@
                 android:layout_marginRight="30dp"
                 android:background="@drawable/inputbox"
                 android:ems="10"
-                android:hint="ICE Telefon nummer"
+                android:hint="Kontaktperson telefon nummer"
                 android:inputType="textPassword"
                 android:paddingLeft="12dp"
                 android:textCursorDrawable="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/regiDataEmergencyContactName" />
+                app:layout_constraintTop_toBottomOf="@+id/regiDataKontaktNavn" />
 
             <EditText
                 android:id="@+id/regiDataOther1"
@@ -280,7 +281,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/regiDataEmergencyContactPhone" />
+                app:layout_constraintTop_toBottomOf="@id/regiDataKontaktNummer" />
 
 
             <LinearLayout
@@ -333,7 +334,7 @@
     <LinearLayout
         android:id="@+id/regiData_overlay_view"
         android:layout_width="match_parent"
-        android:layout_height="225dp"
+        android:layout_height="180dp"
         android:background="@drawable/overlay"
         android:textCursorDrawable="@android:color/black"
         android:orientation="vertical"
@@ -391,20 +392,6 @@
             android:text="Allergi"
             android:clickable="true" />
         <Button
-            android:id="@+id/regiData_overlay_add_ICE"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginRight="1dp"
-            android:background="@drawable/button"
-            android:gravity="center_vertical"
-            android:paddingLeft="30dp"
-            android:text="Kontakt personer"
-            android:clickable="true" />
-        <Button
             android:id="@+id/regiData_overlay_add_Other"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -416,7 +403,7 @@
             android:background="@drawable/button"
             android:gravity="center_vertical"
             android:paddingLeft="30dp"
-            android:text="Andre"
+            android:text="Andet"
             android:clickable="true" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

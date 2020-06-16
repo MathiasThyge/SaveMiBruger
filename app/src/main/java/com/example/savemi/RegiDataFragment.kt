@@ -10,9 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -20,8 +18,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_regi_data.*
 import kotlinx.android.synthetic.main.fragment_regi_data.view.*
 import androidx.navigation.fragment.findNavController
-import com.example.savemi.R.id.action_regiDataFragment_to_scanForWristbandFragment
-import kotlin.math.log
 
 
 /**
@@ -51,10 +47,7 @@ class RegiDataFragment : Fragment() {
 
 
     // Create user in db
-    data class User(
-        var Navn: String = "",
-        var PersId: String = ""//,
-    )
+
 
     /* Create beacon in database
     data class Bruger (
@@ -71,16 +64,15 @@ class RegiDataFragment : Fragment() {
     override fun onViewCreated( view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //slideDownFields.add(R.id.RegiData_ScrollView)
-
         view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
             createUser()
-            otherInput( "Blodtype" )
-            otherInput("Donor")
-            pluralInput("Allergier")
-            pluralInput("Medicin")
-            pluralInput("Andre")
-            pluralInput("")
+            writeToFireBase("Allergier")
+            writeToFireBase("Medicin")
+            writeToFireBase("Andet")
+            writeToFireBase("Blodtype")
+            writeToFireBase("Donor")
+            writeToFireBase("Kontaktperson")
+            writeToFireBase("")
         }
         view.findViewById<ImageButton>(R.id.regiData_add).setOnClickListener(){
             slideUp()
@@ -94,11 +86,8 @@ class RegiDataFragment : Fragment() {
         slideDownEditText.add(view?.findViewById<EditText>(R.id.regiDataMedicin1))
         slideDownEditText.add(view?.findViewById<EditText>(R.id.regiDataAllergi1))
         slideDownEditText.add(view?.findViewById<EditText>(R.id.regiDataOther1))
-
-        var slideDownLinearLayout = ArrayList<LinearLayout>()
-        slideDownLinearLayout.add(view?.findViewById<LinearLayout>(R.id.regiData_add_Medicin))
-        slideDownLinearLayout.add(view?.findViewById<LinearLayout>(R.id.regiData_add_Allergi))
-        slideDownLinearLayout.add(view?.findViewById<LinearLayout>(R.id.regiData_add_Other))
+        slideDownEditText.add(view?.findViewById<EditText>(R.id.regiDataKontaktNavn))
+        slideDownEditText.add(view?.findViewById<EditText>(R.id.regiDataKontaktNummer))
 
         var slideDownSpinner = ArrayList<Spinner>()
         slideDownSpinner.add(view?.findViewById<Spinner>(R.id.regiDataBlodType))
@@ -125,11 +114,9 @@ class RegiDataFragment : Fragment() {
             })
         }
         for ( EditText in slideDownEditText ) {
-            Log.d(logtag, "EditText SlideDown")
             slideAllEditTextDown( EditText )
         }
         for ( Spinner in slideDownSpinner ) {
-            Log.d(logtag, "Spinner SlideDown")
             slideAllSpinnerDown( Spinner )
         }
 
@@ -143,7 +130,7 @@ class RegiDataFragment : Fragment() {
         }
         view.findViewById<Button>(R.id.regiData_overlay_add_Other).setOnClickListener() {
             slideDown()
-            addMore("Other")
+            addMore("Andet")
         }
     }
 
@@ -159,7 +146,6 @@ class RegiDataFragment : Fragment() {
             fejlInput = true
             return
         }
-
         if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.text.toString().isEmpty()) {
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv CPR"
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
@@ -175,6 +161,11 @@ class RegiDataFragment : Fragment() {
         }   else fejlInput = false
 
         if( currentUser != null ) {
+            data class User(
+                var Navn: String = "",
+                var PersId: String = ""//,
+            )
+
             Log.d(logtag, "Length of CPR:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
 
             val uid = auth.currentUser?.uid.toString()
@@ -194,12 +185,11 @@ class RegiDataFragment : Fragment() {
         }
     }
 
-    private fun pluralInput(input: String) {
-        var list = ArrayList<String>()
+    private fun writeToFireBase(input: String) {
         auth = FirebaseAuth.getInstance()
         database = Firebase.database.reference
         val uid = auth.currentUser?.uid.toString()
-
+        var list = ArrayList<String>()
         // Test for finding out how to get string from new editText
         /*Log.d(logtag,   "Array " + medicinIdList)
         for (newEditText in medicinIdList) {
@@ -256,7 +246,7 @@ class RegiDataFragment : Fragment() {
                     }
                 }
             }
-            "Andre" -> {
+            "Andet" -> {
                 if (totalOtherFields <= 1 && RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
                     return
                 } else {
@@ -274,26 +264,11 @@ class RegiDataFragment : Fragment() {
                     for (newEditText in otherIdList){
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
-                            Log.d(logtag,"Gennemlest tilføjede andre: " + newEditText.text.toString())
+                            Log.d(logtag,"Gennemlest tilføjede andet: " + newEditText.text.toString())
                         } else (Log.d(logtag, "andet felt er tomt"))
                     }
                 }
             }
-            else -> if(fejlInput == false) findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
-        }
-
-        Log.d(logtag, "Liste er: " + list)
-        if (list.size > 0) {
-            database.child("users").child(uid).child(input).setValue(list)
-        }
-    }
-
-    private fun otherInput ( input: String ) {
-        auth = FirebaseAuth.getInstance()
-        database = Firebase.database.reference
-        val uid = auth.currentUser?.uid.toString()
-
-        when(input) {
             "Blodtype" -> {
                 var spinner = view?.findViewById<Spinner>(R.id.regiDataBlodType)?.selectedItem
                 if (spinner.toString() == input ){
@@ -301,7 +276,6 @@ class RegiDataFragment : Fragment() {
                 } else {
                     database.child("users").child(uid).child(input).setValue(spinner)
                 }
-
             }
             "Donor" -> {
                 var spinner = view?.findViewById<Spinner>(R.id.regiDataDonor)?.selectedItem
@@ -312,9 +286,40 @@ class RegiDataFragment : Fragment() {
                     database.child("users").child(uid).child(input).setValue(spinner)
                 }
             }
+            "Kontaktperson" -> {
+                data class KontakInfo (
+                    var navn : String = "",
+                    var nummer : String = ""
+                )
+                var kontaktNavn = RegiData_ScrollView_ContraintLayout.regiDataKontaktNavn
+                var kontaktNummer = RegiData_ScrollView_ContraintLayout.regiDataKontaktNummer
+
+                if ( kontaktNavn.text.toString().isEmpty() && kontaktNummer.text.toString().isEmpty() ) {
+                    return
+                } else if ( kontaktNavn.text.toString().isEmpty() && !kontaktNummer.text.toString().isEmpty()) {
+                    kontaktNavn.error = "Udfyld også navn"
+                    kontaktNavn.requestFocus()
+                    fejlInput = true
+                } else if ( !kontaktNavn.text.toString().isEmpty() && kontaktNummer.text.toString().isEmpty()) {
+                    kontaktNummer.error = "Udfyld også nummer"
+                    kontaktNummer.requestFocus()
+                    fejlInput = true
+                } else {
+                    var registreretInfo = KontakInfo( kontaktNavn.text.toString() , kontaktNummer.text.toString() )
+                    database.child("users").child(uid).child(input).setValue( registreretInfo )
+                }
+            }
+            else -> if(fejlInput == false) findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
+        }
+        when (input) {
+            "Medicin","Allergi","Andet" -> {
+                Log.d(logtag, "Liste er: " + list)
+                if (list.size > 0) {
+                    database.child("users").child(uid).child(input).setValue(list)
+                }
+            }
         }
     }
-
 
     private fun addMore( choosen: String ){
         var linearLayout = LinearLayout(activity)
@@ -356,11 +361,11 @@ class RegiDataFragment : Fragment() {
 
                 allergiIdList.add(newEditText)
             }
-            "Andre"     -> {
+            "Andet"     -> {
                 totalOtherFields++
                 if(totalOtherFields > 5) {
                     Log.d(logtag, "TotalOtherFields over 5 er - $totalOtherFields")
-                    Toast.makeText(activity,"Du har nået grænsen for antal andre felter",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"Du har nået grænsen for antal andet felter",Toast.LENGTH_SHORT).show()
                     return
                 }
                 linearLayout = requireView().findViewById<LinearLayout>(R.id.regiData_add_Other)
@@ -388,11 +393,13 @@ class RegiDataFragment : Fragment() {
 
         linearLayout?.addView(newEditText, layoutParam)
     }
+
     // Animation method
     private fun slideUp(){
         if(addField == true) {
             val animationUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
             regiData_overlay_view.startAnimation(animationUp)
+
             regiData_overlay_view.visibility = LinearLayout.VISIBLE
             addField = false
         }
