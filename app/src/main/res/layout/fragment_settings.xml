@@ -19,11 +19,9 @@
             android:layout_width="179dp"
             android:layout_height="47dp"
             android:layout_marginTop="173dp"
-            android:layout_marginBottom="88dp"
             android:background="@drawable/inputbox"
             android:checked="false"
             android:text="Logout"
-            app:layout_constraintBottom_toBottomOf="parent"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -51,23 +49,20 @@
             android:checked="false"
             android:text="Tilladelse til adgang"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
 
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/passwordSetButton"
 
             android:layout_width="307dp"
             android:layout_height="54dp"
-            android:layout_marginTop="46dp"
-            android:layout_marginBottom="46dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/inputbox"
             android:checked="false"
-            android:text="Adgangskode"
 
-            app:layout_constraintBottom_toTopOf="@+id/connectWristbandSetbutton"
+            android:text="Adgangskode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,15 +73,14 @@
 
             android:layout_width="307dp"
             android:layout_height="54dp"
-            android:layout_marginBottom="307dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/inputbox"
             android:checked="false"
             android:text="Armbånd"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
 
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordSetButton" />
 
         <TextView
             android:id="@+id/settingstext"

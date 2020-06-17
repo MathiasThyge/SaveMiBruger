@@ -40,10 +40,8 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="60dp"
-        android:layout_marginLeft="@dimen/standard_margin_login"
+        android:layout_marginTop="300dp"
         android:layout_marginEnd="60dp"
-        android:layout_marginRight="@dimen/standard_margin_login"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/button"
         android:gravity="center_vertical"
         android:hint="eksempel@mail.dk"
@@ -52,18 +50,17 @@
         android:textColor="@android:color/black"
         android:textCursorDrawable="@android:color/black"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/login_password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/login_password"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="60dp"
-        android:layout_marginLeft="@dimen/standard_margin_login"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="60dp"
-        android:layout_marginRight="@dimen/standard_margin_login"
         android:layout_marginBottom="24dp"
         android:background="@drawable/button"
         android:gravity="center_vertical"
@@ -76,23 +73,22 @@
         app:layout_constraintBottom_toTopOf="@+id/login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_email" />
 
     <Button
         android:id="@+id/login_button"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="60dp"
-        android:layout_marginLeft="@dimen/standard_margin_login"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="60dp"
-        android:layout_marginRight="@dimen/standard_margin_login"
-        android:layout_marginBottom="70dp"
         android:background="@drawable/button"
         android:text="Login"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_password" />
 
     <TextView
         android:id="@+id/textView"
@@ -116,16 +112,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:layout_marginLeft="70dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="70dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginBottom="40dp"
         android:text="@string/createaccount"
         android:textColor="@android:color/black"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 <!--</FrameLayout>-->
