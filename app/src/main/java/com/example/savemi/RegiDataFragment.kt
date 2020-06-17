@@ -1,13 +1,13 @@
 package com.example.savemi
 
 
+import android.app.Activity
+import android.inputmethodservice.Keyboard
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -54,6 +54,15 @@ class RegiDataFragment : Fragment() {
     override fun onViewCreated( view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.findViewById<ImageView>(R.id.back_from_regiData).setOnClickListener(){
+            FirebaseAuth.getInstance().currentUser?.delete()
+            findNavController().navigateUp()
+            Toast.makeText(activity,"Din bruger er blevet slettet, opret venligst bruger på ny",Toast.LENGTH_LONG).show()
+        }
+
+
+
+
         view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
             createUser()
             writeToFireBase("Medicin")
@@ -95,13 +104,27 @@ class RegiDataFragment : Fragment() {
                 }
             })
         }
+
+
+        fun hideSoftKeyBoard( view: View) {
+            try {
+                val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+
         fun slideAllSpinnerDown ( pressed :  Spinner) {
             pressed.setOnTouchListener(object : View.OnTouchListener {
-                override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                override fun onTouch(view: View, event: MotionEvent?): Boolean {
                     when (event?.action) {
                         MotionEvent.ACTION_UP -> slideDown()
                     }
-                    return view?.onTouchEvent(event) ?: true
+                    hideSoftKeyBoard(view)
+
+                    return view.onTouchEvent(event) ?: true
                 }
             })
         }

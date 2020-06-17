@@ -36,6 +36,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="516dp"
+            android:layout_marginBottom="73dp"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
             android:background="@drawable/inputbox"
@@ -46,7 +47,8 @@
             android:textCursorDrawable="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/connectWristband"/>
 
         <ImageView
             android:id="@+id/connectwristbandPicture"
