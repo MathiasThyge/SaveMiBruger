@@ -105,7 +105,6 @@ class RegiDataFragment : Fragment() {
             })
         }
 
-
         fun hideSoftKeyBoard( view: View) {
             try {
                 val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
