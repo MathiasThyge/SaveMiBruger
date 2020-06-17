@@ -54,7 +54,7 @@ private val logtag = ScanForWristbandFragment::class.simpleName
             //navigate to next page layout testcode
         }
         view.findViewById<ImageView>(R.id.back_from_scanWristband).setOnClickListener {
-            findNavController().navigate(R.id.action_scanForWristbandFragment_to_settingsFragment)
+            findNavController().navigateUp()
             } //leeds back from page
 
 

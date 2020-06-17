@@ -38,35 +38,27 @@ import kotlinx.coroutines.launch
 import kotlin.math.log
 
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class HomeFragment : Fragment() {
     private val logtag = HomeFragment::class.simpleName
     private lateinit var database: DatabaseReference
     private lateinit var mystorage: FirebaseStorage
     private lateinit var auth: FirebaseAuth
+    private val model: HomeViewModel by activityViewModels()
 
-    var bitmap: Bitmap? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         val view = inflater.inflate(R.layout.fragment_home_new,container,false)
-        /*if(currentUser != null){
-            //downloadAndsetProfilePic()
-            if (bitmap == null)
-                download()
-        }*/
+
         if(currentUser == null) {
             Log.d(logtag, "USER DOES NOT EXIST: $currentUser")
-            findNavController().navigate(R.id.action_homeFragment3_to_loginFragment)
+            findNavController().navigate(R.id.loginFragment)
+        } else {
+            model.homeUpdateRepo(currentUser)
         }
-
-        if (bitmap != null)
-            view.findViewById<ImageView>(R.id.home_ProfilePic).setImageBitmap(bitmap)
-
-
 
         return view
     }
@@ -74,6 +66,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
         database = Firebase.database.reference
+
 
         view.findViewById<ImageView>(R.id.home_settings).setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment3_to_settingsFragment)
@@ -92,8 +85,6 @@ class HomeFragment : Fragment() {
         ))
         homeListAdaptor.notifyDataSetChanged()*/
 
-        val model: HomeViewModel by activityViewModels()
-
         model.getHomeData().observe(viewLifecycleOwner, Observer {
             it ?: return@Observer
 
@@ -105,9 +96,6 @@ class HomeFragment : Fragment() {
 
             view.findViewById<ImageView>(R.id.home_ProfilePic).setImageBitmap(it.profilePicture)
         })
-
-
-
 
         home_ChangeProfilePic.setOnClickListener{
             // Check runtime permission
@@ -196,6 +184,7 @@ class HomeFragment : Fragment() {
             Log.d(logtag, "Uploade Profile pic - Ingen auth ")
         }
     }
+
     /*private fun download(){
         auth = FirebaseAuth.getInstance()
         mystorage = FirebaseStorage.getInstance()

@@ -30,15 +30,10 @@ import kotlinx.coroutines.launch
 
 
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class LoginFragment : Fragment() {
     private val logtag = LoginFragment::class.simpleName
     private lateinit var auth: FirebaseAuth
-    //private lateinit var firebase: Firebase
-    //private lateinit var databse: FirebaseDatabase
-    //private lateinit var rep: UserRepository
     private val model: HomeViewModel by activityViewModels()
 
 
@@ -60,17 +55,19 @@ class LoginFragment : Fragment() {
 
         model.getHomeData().observe(viewLifecycleOwner, Observer{
             Log.d(logtag, "observer")
-
-            if(it != null)
+            Log.d(logtag, "it: $it")
+            if(it != null){
                 findNavController().navigate(R.id.homeFragment3)
-            else
-                Snackbar.make(view, "Not authorized", 50).show()
+
+            } else {
+                Log.d(logtag, "Ingen adgang")
+                Toast.makeText(activity,"Ingen adgang",Toast.LENGTH_LONG).show()
+                //Snackbar.make(view, "Not authorized", 500).show()
+            }
         })
 
-
-        Log.d(logtag, "jeg er bruger auth ${auth.currentUser}")
         view.findViewById<Button>(R.id.login_button).setOnClickListener {
-            //updateUI(auth.currentUser)
+
             singIn()
             Log.d(logtag, "jeg er bruger authlast ${auth.currentUser}")
        }
@@ -88,6 +85,7 @@ class LoginFragment : Fragment() {
 
         }else{
             Toast.makeText(activity,"Login fejlede",Toast.LENGTH_SHORT).show()
+            model.logout()
         }
     }
 
@@ -124,6 +122,8 @@ class LoginFragment : Fragment() {
             model.login(username,password)
             Log.d(logtag,"Global Launch")
         }
+        Toast.makeText(activity,"Et øjeblik",Toast.LENGTH_LONG).show()
+
     }
 
 

@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import android.widget.Button
+import androidx.fragment.app.activityViewModels
+import com.example.savemi.home.HomeViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -16,15 +18,11 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class SettingsFragment : Fragment() {
     private val logtag = SettingsFragment::class.simpleName
-    private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
+    private val model: HomeViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,20 +37,20 @@ class SettingsFragment : Fragment() {
 
         view.findViewById<ImageView>(R.id.back_from_settings).setOnClickListener {
             findNavController().navigateUp()
-        } //leeds back from page
+        }
 
         auth = FirebaseAuth.getInstance()
-        //database = Firebase.database.reference
+
 
         view.findViewById<Button>(R.id.logoutfromSettings).setOnClickListener {
             val currentUser: FirebaseUser? = auth.currentUser
             Log.d(logtag,"currentuser: $currentUser")
 
-            auth.signOut()
+            model.logout()
 
             Log.d(logtag,"Bruger logget ud "+ currentUser)
 
-            findNavController().navigate(R.id.action_settingsFragment_to_loginFragment)
+            findNavController().navigate(R.id.loginFragment)
         }
     }
 

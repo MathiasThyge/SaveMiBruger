@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
@@ -35,7 +36,7 @@ interface UserInterface {
 class UserRepository(): UserInterface {
     private val logtag = UserRepository::class.simpleName
     val auth = FirebaseAuth.getInstance()
-    //private lateinit var auth: FirebaseAuth
+
 
    /* private var userauth: FirebaseUser? = null
     var medicines =  ArrayList<Medicine>()
@@ -116,6 +117,50 @@ class UserRepository(): UserInterface {
         )*/
 
     }
+
+    fun upDataRepo(currentUser: FirebaseUser, onLogin: ((User?) -> Unit) ) {
+        val db = FirebaseDatabase.getInstance().reference.child("users")
+        val userId = currentUser.uid
+        db.child(userId).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // Get Post object and use the values to update the UI
+                download(userId) {
+                    val user = User(
+                        authentication = auth.currentUser!!,
+                        name = dataSnapshot.child("navn").getValue(true).toString(),
+                        cpr = dataSnapshot.child("persId").getValue(true).toString(),
+                        medicines = dataSnapshot.child("Medicin").value.toString()
+                            .getFirebaseList(),
+                        donor = dataSnapshot.child("doner").getValue(true).toString(),
+                        allergies = dataSnapshot.child("Allergier").value.toString()
+                            .getFirebaseList(),
+                        others = dataSnapshot.child("Andet").value.toString().getFirebaseList(),
+                        image = it,
+                        emergencies = dataSnapshot.child("kontakinfo").toString()
+                            .getFirebaseList()
+                    )
+
+                    onLogin.invoke(user)
+                }
+
+
+                //Emergency
+                val emergencyName =
+                    dataSnapshot.child("kontakinfo").child("navn").value.toString()
+                val emergencyPhone =
+                    dataSnapshot.child("kontakinfo").child("telefon").value.toString()
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.d(logtag, "loadPost:onCancelled", databaseError.toException())
+                onLogin.invoke(null)
+            }
+        })
+    }
+
 
     override fun logout() = auth.signOut()
 

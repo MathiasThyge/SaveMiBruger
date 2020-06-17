@@ -42,10 +42,34 @@ class HomeViewModel: ViewModel() {
     fun getHomeData(): LiveData<HomeData?> = modelViewHomeLiveData
 
 
+    fun logout() {
+        repo.logout()
+        modelViewHomeLiveData.postValue(null)
+    }
+
+    fun homeUpdateRepo( currentUser: FirebaseUser){
+        repo.upDataRepo(currentUser) { user ->
+            if (user == null) {
+                modelViewHomeLiveData.postValue(null)
+            } else {
+                Log.d(logtag, "user: $user")
+                val list = mutableListOf<HomeDataElement>()
+                list.add(HomeDataElement(user.name, HomeDataType.NAME))
+                list.add(HomeDataElement(user.cpr, HomeDataType.CPR))
+                list.add(HomeDataElement(user.donor, HomeDataType.BLOD))
+                list.addAll(user.medicines.map { HomeDataElement(it, HomeDataType.MEDICIN) })
+                list.addAll(user.allergies.map { HomeDataElement(it, HomeDataType.ALLERGIE) })
+                list.addAll(user.emergencies.map { HomeDataElement(it, HomeDataType.EMERGENCY) })
+                list.addAll(user.others.map { HomeDataElement(it, HomeDataType.OTHER) })
+                modelViewHomeLiveData.postValue(HomeData(user.image, list, user.authentication))
+            }
+        }
+    }
+
 
      fun login(username: String, password: String){
         Log.d(logtag,"first i login")
-        val user = repo.login(username,password) { user ->
+        repo.login(username,password) { user ->
             if (user == null) {
                 modelViewHomeLiveData.postValue(null)
             } else {

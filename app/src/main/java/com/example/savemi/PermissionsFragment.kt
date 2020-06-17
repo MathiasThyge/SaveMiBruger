@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+
 import androidx.navigation.fragment.findNavController
-import com.example.savemi.R.id.action_permissionsFragment_to_settingsFragment
+
 
 
 /**
@@ -22,12 +23,12 @@ class PermissionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.back_from_permissions).setOnClickListener {
-            findNavController().navigate(R.id.action_permissionsFragment_to_settingsFragment)
+        view.findViewById<ImageView>(R.id.back_from_permissions).setOnClickListener {
+            findNavController().navigateUp()
         } //leeds back from page
 
         view.findViewById<Button>(R.id.confirmpermissionsbutton).setOnClickListener {
-            findNavController().navigate(R.id.action_permissionsFragment_to_settingsFragment)
+            findNavController().navigateUp()
         } //test of layout
     }
 

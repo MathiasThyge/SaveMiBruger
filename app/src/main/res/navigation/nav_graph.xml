@@ -39,6 +39,8 @@
         android:id="@+id/action_registrerFragement_to_HomeFragment"
         app:destination="@+id/homeFragment"/>
 
+
+
     <fragment
         android:id="@+id/regiDataFragment"
         android:name="com.example.savemi.RegiDataFragment"
@@ -51,6 +53,8 @@
             android:id="@+id/action_regiDataFragment_to_scanForWristbandFragment"
             app:destination="@id/scanForWristbandFragment" />
     </fragment>
+
+
     <fragment
         android:id="@+id/scanForWristbandFragment"
         android:name="com.example.savemi.ScanForWristbandFragment"
@@ -77,6 +81,8 @@
         android:id="@+id/action_connectedWritsbandFragment_to_HomeFragment"
         app:destination="@+id/homeFragment"
         />
+
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.savemi.SettingsFragment"
@@ -95,6 +101,8 @@
             android:id="@+id/action_settingsFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+
+
     <fragment
         android:id="@+id/permissionsFragment"
         android:name="com.example.savemi.PermissionsFragment"
@@ -104,6 +112,9 @@
             android:id="@+id/action_permissionsFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
+
+
+
     <fragment
         android:id="@+id/homeFragment3"
         android:name="com.example.savemi.home.HomeFragment"
@@ -112,9 +123,7 @@
         <action
             android:id="@+id/action_homeFragment3_to_settingsFragment"
             app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_homeFragment3_to_loginFragment"
-            app:destination="@id/loginFragment" />
+
     </fragment>
 
 
