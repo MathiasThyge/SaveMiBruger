@@ -29,6 +29,7 @@ class HomeAdaptor(): RecyclerView.Adapter<HomeAdaptor.ViewHolder>() {
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val element = list[position]
         holder.text.text = element.text
         Log.d("Apaptor","elementText: "+element.text)

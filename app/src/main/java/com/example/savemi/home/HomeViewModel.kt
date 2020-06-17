@@ -83,6 +83,7 @@ class HomeViewModel: ViewModel() {
                 list.addAll(user.emergencies.map { HomeDataElement(it, HomeDataType.EMERGENCY) })
                 list.addAll(user.others.map { HomeDataElement(it, HomeDataType.OTHER) })
                 modelViewHomeLiveData.postValue(HomeData(user.image, list, user.authentication))
+                Log.d(logtag, "Homedata: $list")
             }
         }
     }

@@ -38,7 +38,7 @@ class UserRepository(): UserInterface {
     val auth = FirebaseAuth.getInstance()
 
 
-   /* private var userauth: FirebaseUser? = null
+    /* private var userauth: FirebaseUser? = null
     var medicines =  ArrayList<Medicine>()
     lateinit var name: String
     lateinit var cpr: String
@@ -73,22 +73,27 @@ class UserRepository(): UserInterface {
                                     authentication = auth.currentUser!!,
                                     name = dataSnapshot.child("navn").getValue(true).toString(),
                                     cpr = dataSnapshot.child("persId").getValue(true).toString(),
-                                    medicines =  dataSnapshot.child("Medicin").value.toString().getFirebaseList(),
+                                    medicines = dataSnapshot.child("Medicin").value.toString()
+                                        .getFirebaseList(),
                                     donor = dataSnapshot.child("doner").getValue(true).toString(),
-                                    allergies = dataSnapshot.child("Allergier").value.toString().getFirebaseList(),
-                                    others = dataSnapshot.child("Andet").value.toString().getFirebaseList(),
+                                    allergies = dataSnapshot.child("Allergier").value.toString()
+                                        .getFirebaseList(),
+                                    others = dataSnapshot.child("Andet").value.toString()
+                                        .getFirebaseList(),
                                     image = it,
-                                    emergencies = dataSnapshot.child("kontakinfo").toString().getFirebaseList()
+                                    emergencies = dataSnapshot.child("kontakinfo").toString()
+                                        .getFirebaseList()
                                 )
 
                                 onLogin.invoke(user)
                             }
 
 
-
                             //Emergency
-                            val emergencyName =  dataSnapshot.child("kontakinfo").child("navn").value.toString()
-                            val emergencyPhone =  dataSnapshot.child("kontakinfo").child("telefon").value.toString()
+                            val emergencyName =
+                                dataSnapshot.child("kontakinfo").child("navn").value.toString()
+                            val emergencyPhone =
+                                dataSnapshot.child("kontakinfo").child("telefon").value.toString()
 
                         }
 
@@ -118,12 +123,12 @@ class UserRepository(): UserInterface {
 
     }
 
-    fun upDataRepo(currentUser: FirebaseUser, onLogin: ((User?) -> Unit) ) {
+    fun upDataRepo(currentUser: FirebaseUser, onLogin: ((User?) -> Unit)) {
         val db = FirebaseDatabase.getInstance().reference.child("users")
         val userId = currentUser.uid
         db.child(userId).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
+                Log.d(logtag, dataSnapshot.child("Andet").value.toString())
                 // Get Post object and use the values to update the UI
                 download(userId) {
                     val user = User(
@@ -132,27 +137,20 @@ class UserRepository(): UserInterface {
                         cpr = dataSnapshot.child("persId").getValue(true).toString(),
                         medicines = dataSnapshot.child("Medicin").value.toString()
                             .getFirebaseList(),
-                        donor = dataSnapshot.child("doner").getValue(true).toString(),
+                        donor = dataSnapshot.child("Donor").getValue(true).toString(),
                         allergies = dataSnapshot.child("Allergier").value.toString()
                             .getFirebaseList(),
                         others = dataSnapshot.child("Andet").value.toString().getFirebaseList(),
                         image = it,
-                        emergencies = dataSnapshot.child("kontakinfo").toString()
-                            .getFirebaseList()
+                        emergencies = getEmengencyFirebaseList(
+                            dataSnapshot.child("Kontaktperson").child("navn").value.toString(),
+                            dataSnapshot.child("Kontaktperson").child("nummer").value.toString()
+                        )
                     )
 
                     onLogin.invoke(user)
                 }
-
-
-                //Emergency
-                val emergencyName =
-                    dataSnapshot.child("kontakinfo").child("navn").value.toString()
-                val emergencyPhone =
-                    dataSnapshot.child("kontakinfo").child("telefon").value.toString()
-
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Log.d(logtag, "loadPost:onCancelled", databaseError.toException())
@@ -166,18 +164,19 @@ class UserRepository(): UserInterface {
 
     companion object {
 
-        fun getUserRepo() : UserRepository {
+        fun getUserRepo(): UserRepository {
             return UserRepository()
         }
     }
+
     private fun download(userId: String, onImage: (Bitmap?) -> Unit) {
         val myStorage = FirebaseStorage.getInstance()
         val ref = myStorage.reference.child("$userId/image/ProfilePic.jpg")
-        val file = File.createTempFile("ProfilePic","jpg")
+        val file = File.createTempFile("ProfilePic", "jpg")
 
-        Log.d(logtag,"file $file")
-        ref.getFile(file).addOnCompleteListener(){task ->
-            if(task.isSuccessful) {
+        Log.d(logtag, "file $file")
+        ref.getFile(file).addOnCompleteListener() { task ->
+            if (task.isSuccessful) {
                 Log.d(logtag, "SUCCESS load and set profilepic repo")
                 onImage.invoke(BitmapFactory.decodeFile(file.absolutePath))
 
@@ -189,10 +188,42 @@ class UserRepository(): UserInterface {
     }
 
     fun String.getFirebaseList(): List<String> {
-        return removePrefix("[").removeSuffix("]").split(",")
+        val emptyList = emptyList<String>()
+        Log.d(logtag, "emptylist: $emptyList")
+        val list = removePrefix("[").removeSuffix("]").split(",")
+        return if (list[0] == "null") emptyList
+        else list
 
 
     }
 
+    fun getEmengencyFirebaseList(navn: String, tlf: String): List<String> {
+
+        val emptyList = emptyList<String>()
+        val nameList = navn.removePrefix("[").removeSuffix("]").split(",")
+        val tlfList = tlf.removePrefix("[").removeSuffix("]").split(",")
+        Log.d(logtag, "$tlfList")
+        return if (nameList[0] == "null") {
+            emptyList
+        } else {
+            var i = 0
+            var string = ""
+            for (item in nameList) {
+                if(nameList.size-1 >i ) {
+                    string = item + ":" + " " + tlfList[i]+","
+
+                }else{
+                    string = item + ":" + " " + tlfList[i]
+
+                }
+                i++
+
+            }
+            val list = string.split(",")
+
+            list
+        }
+
+    }
 }
 

@@ -13,14 +13,14 @@
         android:id="@+id/safe_mi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/safe_mi"
         android:textColor="#000000"
         android:textSize="60sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.382"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -40,8 +40,8 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="300dp"
         android:layout_marginEnd="60dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/button"
         android:gravity="center_vertical"
         android:hint="eksempel@mail.dk"
@@ -50,18 +50,17 @@
         android:textColor="@android:color/black"
         android:textCursorDrawable="@android:color/black"
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/login_password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/login_password"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="60dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="25dp"
         android:background="@drawable/button"
         android:gravity="center_vertical"
         android:hint="***********"
@@ -73,53 +72,50 @@
         app:layout_constraintBottom_toTopOf="@+id/login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_email" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/login_button"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="25dp"
         android:layout_marginEnd="60dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button"
         android:text="Login"
+        app:layout_constraintBottom_toTopOf="@+id/createaccounttext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_password" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="60dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginBottom="250dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/slogan"
         android:textColor="@android:color/black"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/login_email"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/createaccounttext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="70dp"
+        android:layout_marginBottom="125dp"
         android:text="@string/createaccount"
         android:textColor="@android:color/black"
         android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 <!--</FrameLayout>-->
