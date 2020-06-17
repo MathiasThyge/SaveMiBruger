@@ -54,7 +54,17 @@ class RegiDataFragment : Fragment() {
     override fun onViewCreated( view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fun hideSoftKeyBoard( view: View) {
+            try {
+                val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
         view.findViewById<ImageView>(R.id.back_from_regiData).setOnClickListener(){
+            hideSoftKeyBoard(view)
             FirebaseAuth.getInstance().currentUser?.delete()
             findNavController().navigateUp()
             Toast.makeText(activity,"Din bruger er blevet slettet, opret venligst bruger på ny",Toast.LENGTH_LONG).show()
@@ -64,6 +74,7 @@ class RegiDataFragment : Fragment() {
 
 
         view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
+            hideSoftKeyBoard(view)
             createUser()
             writeToFireBase("Medicin")
             writeToFireBase("Allergier")
@@ -76,9 +87,11 @@ class RegiDataFragment : Fragment() {
 
         }
         view.findViewById<ImageButton>(R.id.regiData_add).setOnClickListener(){
+            hideSoftKeyBoard(view)
             slideUp()
         }
         view.findViewById<ConstraintLayout>(R.id.RegiData_ScrollView_ContraintLayout).setOnClickListener(){
+            hideSoftKeyBoard(view)
             slideDown()
         }
         var slideDownEditText = ArrayList<EditText>()
@@ -94,27 +107,18 @@ class RegiDataFragment : Fragment() {
         slideDownSpinner.add(view?.findViewById<Spinner>(R.id.regiDataBlodType))
         slideDownSpinner.add(view?.findViewById<Spinner>(R.id.regiDataDonor))
 
+
+
         fun slideAllEditTextDown ( pressed :  EditText) {
             pressed.setOnTouchListener(object : View.OnTouchListener {
-                override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+                override fun onTouch(view: View, event: MotionEvent?): Boolean {
                     when (event?.action) {
                         MotionEvent.ACTION_UP -> slideDown()
                     }
-                    return view?.onTouchEvent(event) ?: true
+                    return view.onTouchEvent(event) ?: true
                 }
             })
         }
-
-        fun hideSoftKeyBoard( view: View) {
-            try {
-                val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-        }
-
         fun slideAllSpinnerDown ( pressed :  Spinner) {
             pressed.setOnTouchListener(object : View.OnTouchListener {
                 override fun onTouch(view: View, event: MotionEvent?): Boolean {
@@ -122,7 +126,6 @@ class RegiDataFragment : Fragment() {
                         MotionEvent.ACTION_UP -> slideDown()
                     }
                     hideSoftKeyBoard(view)
-
                     return view.onTouchEvent(event) ?: true
                 }
             })
@@ -135,14 +138,17 @@ class RegiDataFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.regiData_overlay_add_Medicin).setOnClickListener() {
+            hideSoftKeyBoard(view)
             slideDown()
             addMore("Medicin")
         }
         view.findViewById<Button>(R.id.regiData_overlay_add_Allergi).setOnClickListener() {
+            hideSoftKeyBoard(view)
             slideDown()
             addMore("Allergier")
         }
         view.findViewById<Button>(R.id.regiData_overlay_add_Other).setOnClickListener() {
+            hideSoftKeyBoard(view)
             slideDown()
             addMore("Andet")
         }
