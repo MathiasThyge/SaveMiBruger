@@ -17,7 +17,8 @@
             app:destination="@id/registrerFragment" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment3"
-            app:destination="@id/homeFragment3" />
+            app:destination="@id/homeFragment3"
+            app:popUpToInclusive="false" />
 
     </fragment>
 
@@ -120,6 +121,7 @@
         <action
             android:id="@+id/action_homeFragment3_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action android:id="@+id/action_homeFragment3_pop" />
 
     </fragment>
 
