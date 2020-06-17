@@ -74,7 +74,7 @@ class RegistrerFragment : Fragment() {
         }
 
         if(regi_password.length()<8){
-            regi_password.error ="min. 8 karaktere"
+            regi_password.error ="min. 9 karaktere"
             regi_password.requestFocus()
             return
         }
