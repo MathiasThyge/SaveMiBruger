@@ -40,11 +40,6 @@ private val logtag = ScanForWristbandFragment::class.simpleName
     data class BrugerUID(var brugerUID:String = "")
 
 
-    private val beaconID = "c0efeb679e7f817c1443aa05b53d5703"
-    private val beaconMajor = 62521
-    private val beaconMinor = 408
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(logtag, "Du er nu ved at oprette en beacon")

@@ -75,10 +75,6 @@ class HomeFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         database = Firebase.database.reference
 
-        view.findViewById<Button>(R.id.logout_button).setOnClickListener {
-            auth.signOut()
-            findNavController().navigate(R.id.action_homeFragment3_to_loginFragment)
-        }
         view.findViewById<ImageView>(R.id.home_settings).setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment3_to_settingsFragment)
         }

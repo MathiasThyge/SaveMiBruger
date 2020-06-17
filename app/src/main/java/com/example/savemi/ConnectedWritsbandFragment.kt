@@ -23,7 +23,7 @@ class ConnectedWritsbandFragment : Fragment() {
 
         view.findViewById<Button>(R.id.backtoprofile).setOnClickListener{
             //connectWristband()  // begin search of beaconID
-            findNavController().navigate(R.id.action_connectedWritsbandFragment_to_HomeFragment)
+            findNavController().navigate(R.id.action_connectedWritsbandFragment_to_homeFragment3)
             //navigate to next page layout testcode
         }
 

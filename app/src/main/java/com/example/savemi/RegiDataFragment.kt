@@ -76,6 +76,8 @@ class RegiDataFragment : Fragment() {
             writeToFireBase("Donor")
             writeToFireBase("Kontaktperson")
             writeToFireBase("")
+            findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
+
         }
         view.findViewById<ImageButton>(R.id.regiData_add).setOnClickListener(){
             slideUp()

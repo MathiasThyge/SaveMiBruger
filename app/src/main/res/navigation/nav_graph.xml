@@ -68,7 +68,11 @@
         android:id="@+id/connectedWritsbandFragment"
         android:name="com.example.savemi.ConnectedWritsbandFragment"
         android:label="fragment_wristband_connected"
-        tools:layout="@layout/fragment_wristband_connected" />
+        tools:layout="@layout/fragment_wristband_connected" >
+        <action
+            android:id="@+id/action_connectedWritsbandFragment_to_homeFragment3"
+            app:destination="@id/homeFragment3" />
+    </fragment>
     <action
         android:id="@+id/action_connectedWritsbandFragment_to_HomeFragment"
         app:destination="@+id/homeFragment"
@@ -87,6 +91,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_permissionsFragment"
             app:destination="@id/permissionsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/permissionsFragment"
