@@ -190,7 +190,12 @@ class UserRepository(): UserInterface {
     fun String.getFirebaseList(): List<String> {
         val emptyList = emptyList<String>()
         Log.d(logtag, "emptylist: $emptyList")
-        val list = removePrefix("[").removeSuffix("]").split(",")
+        val list = removePrefix("[").removeSuffix("]").split(",").toMutableList()
+        var i = 0
+        for (item in list){
+            list[i] = item.trimIndent()
+            i++
+        }
         return if (list[0] == "null") emptyList
         else list
 

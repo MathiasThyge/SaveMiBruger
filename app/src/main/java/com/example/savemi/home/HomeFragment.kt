@@ -5,7 +5,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
@@ -20,7 +19,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,11 +30,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_home_new.*
-import kotlinx.android.synthetic.main.fragment_login.*
-
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlin.math.log
 
 
 
@@ -68,15 +61,7 @@ class HomeFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         database = Firebase.database.reference
 
-        fun hideSoftKeyBoard( view: View) {
-            try {
-                val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-        }
+        hideSoftKeyBoard(view)
 
         view.findViewById<ImageView>(R.id.home_settings).setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment3_to_settingsFragment)
@@ -218,6 +203,16 @@ class HomeFragment : Fragment() {
 
     }
 */
+
+    fun hideSoftKeyBoard( view: View) {
+        try {
+            val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
 
     }
 
