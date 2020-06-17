@@ -44,19 +44,6 @@ class RegiDataFragment : Fragment() {
     private var allergiIdList = ArrayList<EditText>()
     private var otherIdList = ArrayList<EditText>()
 
-
-
-    // Create user in db
-
-
-    /* Create beacon in database
-    data class Bruger (
-        var userUid : String = ""
-    )
-    val bruger = Bruger(uid)
-    database.child("ibeacon").child( "hejjegerbeaconuid01" ).setValue(bruger)
-    */
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_regi_data,container,false)
 
@@ -157,7 +144,7 @@ class RegiDataFragment : Fragment() {
             fejlInput = true
             return
         }
-        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() >= 12 && RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() <= 9) {
+        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() >= 12 || RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() <= 9) {
             Log.d(logtag, "Length of CPR in:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv korrekt CPR"
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
@@ -181,9 +168,7 @@ class RegiDataFragment : Fragment() {
             Log.d(logtag, "User: " + user)
 
             database.child("users").child( uid ).setValue(user).addOnCompleteListener(){ task ->
-                if( task.isSuccessful){
-                    //findNavController().navigate(R.id.action_regiDataFragment_to_homefragment)
-                } else{
+                if( !task.isSuccessful){
                     Toast.makeText(activity,"Der skete en fejl",Toast.LENGTH_SHORT).show()
                 }
             }
@@ -204,22 +189,21 @@ class RegiDataFragment : Fragment() {
         }*/
 
         when (input) {
-
             "Medicin" -> {
-                if (totalMedicinFields <= 1 && RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
+                if (RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
                     return
                 } else {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString())
                 }
 
                 // If added field, first must be filled - dont know how to do for the others
-                if (totalMedicinFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
+                /*if (totalMedicinFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
                     RegiData_ScrollView_ContraintLayout.regiDataMedicin1.error =
                         "Udfyld venligst det første felt inden"
                     RegiData_ScrollView_ContraintLayout.regiDataMedicin1.requestFocus()
                     fejlInput = true
                     return
-                } else if( totalMedicinFields > 1){
+                } else*/ if( totalMedicinFields > 1){
                     for (newEditText in medicinIdList){
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
@@ -229,20 +213,20 @@ class RegiDataFragment : Fragment() {
                 }
             }
             "Allergier" -> {
-                if (totalAllergiFields <= 1 && RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
+                if (RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
                     return
                 } else {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString())
                 }
 
                 // If added field, first must be filled - dont know how to do for the others
-                if (totalAllergiFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
+                /*if (totalAllergiFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
                     RegiData_ScrollView_ContraintLayout.regiDataAllergi1.error =
                         "Udfyld venligst det første felt inden"
                     RegiData_ScrollView_ContraintLayout.regiDataAllergi1.requestFocus()
                     fejlInput = true
                     return
-                } else if( totalAllergiFields > 1){
+                } else*/ if( totalAllergiFields > 1){
                     for (newEditText in allergiIdList){
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
@@ -252,20 +236,20 @@ class RegiDataFragment : Fragment() {
                 }
             }
             "Andet" -> {
-                if (totalOtherFields <= 1 && RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
+                if (RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
                     return
                 } else {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString())
                 }
 
                 // If added field, first must be filled - dont know how to do for the others
-                if (totalOtherFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
+                /*if (totalOtherFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
                     RegiData_ScrollView_ContraintLayout.regiDataOther1.error =
                         "Udfyld venligst det første felt først"
                     RegiData_ScrollView_ContraintLayout.regiDataOther1.requestFocus()
                     fejlInput = true
                     return
-                } else if( totalOtherFields > 1 ){
+                } else*/ if( totalOtherFields > 1 ){
                     for (newEditText in otherIdList){
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
@@ -279,7 +263,7 @@ class RegiDataFragment : Fragment() {
                 if (spinner.toString() == input ){
                     return
                 } else {
-                    database.child("users").child(uid).child(input).setValue(spinner)
+                    database.child("users").child(uid).child(input).setValue(spinner.toString())
                 }
             }
             "Donor" -> {
@@ -288,7 +272,7 @@ class RegiDataFragment : Fragment() {
                     database.child("users").child(uid).child(input).setValue("Nej")
                     return
                 } else {
-                    database.child("users").child(uid).child(input).setValue(spinner)
+                    database.child("users").child(uid).child(input).setValue(spinner.toString())
                 }
             }
             "Kontaktperson" -> {
