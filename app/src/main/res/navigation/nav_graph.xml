@@ -47,9 +47,6 @@
         android:label="fragment_regi_data"
         tools:layout="@layout/fragment_regi_data" >
         <action
-            android:id="@+id/action_regiDataFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
             android:id="@+id/action_regiDataFragment_to_scanForWristbandFragment"
             app:destination="@id/scanForWristbandFragment" />
     </fragment>

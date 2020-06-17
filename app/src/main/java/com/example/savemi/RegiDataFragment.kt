@@ -56,14 +56,14 @@ class RegiDataFragment : Fragment() {
 
         view.findViewById<Button>(R.id.regiData_confirmButton).setOnClickListener {
             createUser()
-            writeToFireBase("Allergier")
             writeToFireBase("Medicin")
+            writeToFireBase("Allergier")
             writeToFireBase("Andet")
             writeToFireBase("Blodtype")
             writeToFireBase("Donor")
             writeToFireBase("Kontaktperson")
             writeToFireBase("")
-            findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
+            //findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
 
         }
         view.findViewById<ImageButton>(R.id.regiData_add).setOnClickListener(){
@@ -190,20 +190,10 @@ class RegiDataFragment : Fragment() {
 
         when (input) {
             "Medicin" -> {
-                if (RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
-                    return
-                } else {
+                if (totalMedicinFields == 1 && !RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString())
                 }
-
-                // If added field, first must be filled - dont know how to do for the others
-                /*if (totalMedicinFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
-                    RegiData_ScrollView_ContraintLayout.regiDataMedicin1.error =
-                        "Udfyld venligst det første felt inden"
-                    RegiData_ScrollView_ContraintLayout.regiDataMedicin1.requestFocus()
-                    fejlInput = true
-                    return
-                } else*/ if( totalMedicinFields > 1){
+                if( totalMedicinFields > 1){
                     for (newEditText in medicinIdList){
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
@@ -213,20 +203,10 @@ class RegiDataFragment : Fragment() {
                 }
             }
             "Allergier" -> {
-                if (RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
-                    return
-                } else {
+                if (totalAllergiFields == 1 && !RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString())
                 }
-
-                // If added field, first must be filled - dont know how to do for the others
-                /*if (totalAllergiFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
-                    RegiData_ScrollView_ContraintLayout.regiDataAllergi1.error =
-                        "Udfyld venligst det første felt inden"
-                    RegiData_ScrollView_ContraintLayout.regiDataAllergi1.requestFocus()
-                    fejlInput = true
-                    return
-                } else*/ if( totalAllergiFields > 1){
+                if( totalAllergiFields > 1){
                     for (newEditText in allergiIdList){
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
@@ -236,20 +216,10 @@ class RegiDataFragment : Fragment() {
                 }
             }
             "Andet" -> {
-                if (RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
-                    return
-                } else {
+                if (totalOtherFields == 1 && !RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString())
                 }
-
-                // If added field, first must be filled - dont know how to do for the others
-                /*if (totalOtherFields > 1 && RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
-                    RegiData_ScrollView_ContraintLayout.regiDataOther1.error =
-                        "Udfyld venligst det første felt først"
-                    RegiData_ScrollView_ContraintLayout.regiDataOther1.requestFocus()
-                    fejlInput = true
-                    return
-                } else*/ if( totalOtherFields > 1 ){
+                if( totalOtherFields > 1 ){
                     for (newEditText in otherIdList){
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
