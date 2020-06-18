@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_ScrollView_ContraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -12,10 +13,10 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_item_title" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_item_title" />
 
     <TextView
-        android:id="@+id/home_item_text"
+        android:id="@+id/edit_item_text"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
@@ -26,12 +27,12 @@
         android:text="Name"
         android:textColor="@android:color/black"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/home_item_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/edit_edit_imageView"
+        app:layout_constraintStart_toEndOf="@+id/edit_item_image_view"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <TextView
-        android:id="@+id/home_item_title"
+        android:id="@+id/edit_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -42,14 +43,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/home_item_image_view"
+        android:id="@+id/edit_item_image_view"
         android:layout_width="25dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/navn_ind_24px"
-        app:layout_constraintBottom_toBottomOf="@+id/home_item_text"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_item_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/home_item_text" />
+        app:layout_constraintTop_toTopOf="@+id/edit_item_text" />
 
     <View
         android:id="@+id/divider2"
@@ -59,7 +60,17 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_item_text" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_item_text" />
+
+    <ImageView
+        android:id="@+id/edit_edit_imageView"
+        android:layout_width="25dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_item_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_item_text"
+        app:srcCompat="@drawable/border_color_24px_outlined" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

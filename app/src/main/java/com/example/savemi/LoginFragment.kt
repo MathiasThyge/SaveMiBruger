@@ -13,19 +13,13 @@ import android.widget.TextView
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.example.savemi.data.User
-import com.example.savemi.home.HomeAdaptor
 import com.example.savemi.home.HomeViewModel
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 

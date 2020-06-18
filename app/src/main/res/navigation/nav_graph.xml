@@ -122,7 +122,18 @@
             android:id="@+id/action_homeFragment3_to_settingsFragment"
             app:destination="@id/settingsFragment" />
         <action android:id="@+id/action_homeFragment3_pop" />
+        <action
+            android:id="@+id/action_homeFragment3_to_editFragment"
+            app:destination="@id/editFragment" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.example.savemi.edit.EditFragment"
+        android:label="EditFragment" >
+        <action
+            android:id="@+id/action_editFragment_to_homeFragment3"
+            app:destination="@id/homeFragment3" />
     </fragment>
 
 

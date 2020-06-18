@@ -1,7 +1,6 @@
 package com.example.savemi.home
 
 import android.Manifest
-
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -65,6 +64,10 @@ class HomeFragment : Fragment() {
 
         view.findViewById<ImageView>(R.id.home_settings).setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment3_to_settingsFragment)
+        }
+
+        view.findViewById<ImageView>(R.id.home_edit).setOnClickListener{
+            findNavController().navigate(R.id.action_homeFragment3_to_editFragment)
         }
 
         val homeListAdaptor = HomeAdaptor()

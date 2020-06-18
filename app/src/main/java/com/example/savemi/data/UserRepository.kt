@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
@@ -20,6 +21,7 @@ data class User(
     val authentication: FirebaseUser,
     val name: String,
     val cpr: String,
+    val blood: String,
     val image: Bitmap?,
     val medicines: List<String>,
     val donor: String,
@@ -36,17 +38,6 @@ interface UserInterface {
 class UserRepository(): UserInterface {
     private val logtag = UserRepository::class.simpleName
     val auth = FirebaseAuth.getInstance()
-
-
-    /* private var userauth: FirebaseUser? = null
-    var medicines =  ArrayList<Medicine>()
-    lateinit var name: String
-    lateinit var cpr: String
-    lateinit var donor: String
-    var allergies =  ArrayList<Allergi>()
-    var emergency =  ArrayList<Emergency>()
-    var others =  ArrayList<Other>()
-    var image: Bitmap? = null*/
 
     override fun login(username: String, password: String, onLogin: ((User?) -> Unit)) {
         Log.d(logtag, "first login")
@@ -81,19 +72,14 @@ class UserRepository(): UserInterface {
                                     others = dataSnapshot.child("Andet").value.toString()
                                         .getFirebaseList(),
                                     image = it,
-                                    emergencies = dataSnapshot.child("kontakinfo").toString()
-                                        .getFirebaseList()
+                                    emergencies = getEmengencyFirebaseList(
+                                        dataSnapshot.child("Kontaktperson").child("navn").value.toString(),
+                                        dataSnapshot.child("Kontaktperson").child("nummer").value.toString()),
+                                    blood = dataSnapshot.child("Blodtype").getValue(true).toString()
                                 )
 
                                 onLogin.invoke(user)
                             }
-
-
-                            //Emergency
-                            val emergencyName =
-                                dataSnapshot.child("kontakinfo").child("navn").value.toString()
-                            val emergencyPhone =
-                                dataSnapshot.child("kontakinfo").child("telefon").value.toString()
 
                         }
 
@@ -144,8 +130,8 @@ class UserRepository(): UserInterface {
                         image = it,
                         emergencies = getEmengencyFirebaseList(
                             dataSnapshot.child("Kontaktperson").child("navn").value.toString(),
-                            dataSnapshot.child("Kontaktperson").child("nummer").value.toString()
-                        )
+                            dataSnapshot.child("Kontaktperson").child("nummer").value.toString()),
+                        blood = dataSnapshot.child("Blodtype").getValue(true).toString()
                     )
 
                     onLogin.invoke(user)
@@ -230,5 +216,72 @@ class UserRepository(): UserInterface {
         }
 
     }
+
+
+    fun changeUserValues(uid: String, newValue: String, type: String, count: Int, onChanges: ((Boolean)-> Unit)){
+        val db = Firebase.database.reference.child("users")
+        Log.d(logtag, "type: $type")
+        when(type){
+            "NAME"->{
+                Log.d(logtag, "Navn")
+                db.child(uid).child("navn").setValue(newValue).addOnCompleteListener(){ task ->
+                    if( task.isSuccessful) onChanges.invoke(true)
+                    if( !task.isSuccessful) onChanges.invoke(false)}
+
+            }
+            "CPR"->{
+                Log.d(logtag, "CPR")
+                db.child(uid).child("persID").setValue(newValue).addOnCompleteListener(){ task ->
+                    if( task.isSuccessful) onChanges.invoke(true)
+                    if( !task.isSuccessful) onChanges.invoke(false)}
+            }
+            "BLOD"->{
+                Log.d(logtag, "BT")
+                db.child(uid).child("Medicin").setValue(newValue).addOnCompleteListener(){ task ->
+                    if( task.isSuccessful) onChanges.invoke(true)
+                    if( !task.isSuccessful) onChanges.invoke(false)}
+            }
+            "DONOR"->{
+                Log.d(logtag, "D")
+                db.child(uid).child("Donor").setValue(newValue).addOnCompleteListener(){ task ->
+                    if( task.isSuccessful) onChanges.invoke(true)
+                    if( !task.isSuccessful) onChanges.invoke(false)}
+            }
+            "MEDICIN" ->{
+                Log.d(logtag, "M")
+                db.child(uid).child("Medicin").child(count.toString()).setValue(newValue).addOnCompleteListener(){ task ->
+                    if( task.isSuccessful) onChanges.invoke(true)
+                    if( !task.isSuccessful) onChanges.invoke(false)}
+
+            }
+            "ALLERGIE"->{
+                Log.d(logtag, "A")
+                db.child(uid).child("Allergier").child(count.toString()).setValue(newValue).addOnCompleteListener(){ task ->
+                    if( task.isSuccessful) onChanges.invoke(true)
+                    if( !task.isSuccessful) onChanges.invoke(false)}
+            }
+            "EMERGENCY"->{
+                Log.d(logtag, "N")
+                val list = newValue.split(":",","," ",";")
+
+                db.child(uid).child("Kontaktperson").child("navn").setValue(list[0]).addOnCompleteListener(){ task ->
+                    if( task.isSuccessful) onChanges.invoke(true)
+                    if( !task.isSuccessful) onChanges.invoke(false)}
+                db.child(uid).child("Kontaktperson").child("nummer").setValue(list[1]).addOnCompleteListener(){ task ->
+                    if( task.isSuccessful) onChanges.invoke(true)
+                    if( !task.isSuccessful) onChanges.invoke(false)}
+
+            }
+            "OTHER"->{
+                Log.d(logtag, "andet")
+                db.child(uid).child("Andet").child(count.toString()).setValue(newValue).addOnCompleteListener(){ task ->
+                    if( task.isSuccessful) onChanges.invoke(true)
+                    if( !task.isSuccessful) onChanges.invoke(false)}
+            }
+
+        }
+
+
+   }
 }
 

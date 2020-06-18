@@ -15,7 +15,7 @@ enum class HomeDataType {
     BLOD,
     MEDICIN,
     ALLERGIE,
-    DONER,
+    DONOR,
     EMERGENCY,
     OTHER
 }
@@ -56,7 +56,8 @@ class HomeViewModel: ViewModel() {
                 val list = mutableListOf<HomeDataElement>()
                 list.add(HomeDataElement(user.name, HomeDataType.NAME))
                 list.add(HomeDataElement(user.cpr, HomeDataType.CPR))
-                list.add(HomeDataElement(user.donor, HomeDataType.BLOD))
+                list.add(HomeDataElement(user.blood, HomeDataType.BLOD))
+                list.add(HomeDataElement(user.donor, HomeDataType.DONOR))
                 list.addAll(user.medicines.map { HomeDataElement(it, HomeDataType.MEDICIN) })
                 list.addAll(user.allergies.map { HomeDataElement(it, HomeDataType.ALLERGIE) })
                 list.addAll(user.emergencies.map { HomeDataElement(it, HomeDataType.EMERGENCY) })

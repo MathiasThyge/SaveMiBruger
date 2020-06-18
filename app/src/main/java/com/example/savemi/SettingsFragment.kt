@@ -13,10 +13,6 @@ import androidx.fragment.app.activityViewModels
 import com.example.savemi.home.HomeViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-
 
 
 class SettingsFragment : Fragment() {
@@ -35,7 +31,7 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_settingsFragment_to_permissionsFragment)
         }
 
-        view.findViewById<ImageView>(R.id.back_from_settings).setOnClickListener {
+        view.findViewById<ImageView>(R.id.edit_back_to_home).setOnClickListener {
             findNavController().navigateUp()
         }
 
