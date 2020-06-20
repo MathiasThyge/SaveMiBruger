@@ -47,7 +47,7 @@
             android:layout_marginTop="150dp"
             android:background="@drawable/inputbox"
             android:checked="false"
-            android:text="Tilladelse til adgang"
+            android:text="Del dine oplysninger med"
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"

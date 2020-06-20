@@ -217,6 +217,7 @@ class RegiDataFragment : Fragment() {
         }*/
 
         when (input) {
+
             "Medicin" -> {
                 if (totalMedicinFields == 1 && !RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString())
