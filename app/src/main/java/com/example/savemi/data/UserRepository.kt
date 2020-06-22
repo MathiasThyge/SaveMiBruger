@@ -109,7 +109,7 @@ class UserRepository(): UserInterface {
 
     }
 
-    fun upDataRepo(currentUser: FirebaseUser, onLogin: ((User?) -> Unit)) {
+    fun upDateRepo(currentUser: FirebaseUser, onUpdate: ((User?) -> Unit)) {
         val db = FirebaseDatabase.getInstance().reference.child("users")
         val userId = currentUser.uid
         db.child(userId).addValueEventListener(object : ValueEventListener {
@@ -134,13 +134,13 @@ class UserRepository(): UserInterface {
                         blood = dataSnapshot.child("Blodtype").getValue(true).toString()
                     )
 
-                    onLogin.invoke(user)
+                    onUpdate.invoke(user)
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Log.d(logtag, "loadPost:onCancelled", databaseError.toException())
-                onLogin.invoke(null)
+                onUpdate.invoke(null)
             }
         })
     }
@@ -173,7 +173,7 @@ class UserRepository(): UserInterface {
         }
     }
 
-    fun String.getFirebaseList(): List<String> {
+    private fun String.getFirebaseList(): List<String> {
         val emptyList = emptyList<String>()
         Log.d(logtag, "emptylist: $emptyList")
         val list = removePrefix("[").removeSuffix("]").split(",").toMutableList()
@@ -188,7 +188,7 @@ class UserRepository(): UserInterface {
 
     }
 
-    fun getEmengencyFirebaseList(navn: String, tlf: String): List<String> {
+    private fun getEmengencyFirebaseList(navn: String, tlf: String): List<String> {
 
         val emptyList = emptyList<String>()
         val nameList = navn.removePrefix("[").removeSuffix("]").split(",")
@@ -221,65 +221,153 @@ class UserRepository(): UserInterface {
     fun changeUserValues(uid: String, newValue: String, type: String, count: Int, onChanges: ((Boolean)-> Unit)){
         val db = Firebase.database.reference.child("users")
         Log.d(logtag, "type: $type")
-        when(type){
-            "NAME"->{
-                Log.d(logtag, "Navn")
-                db.child(uid).child("navn").setValue(newValue).addOnCompleteListener(){ task ->
-                    if( task.isSuccessful) onChanges.invoke(true)
-                    if( !task.isSuccessful) onChanges.invoke(false)}
+        if(newValue != "DELETE" || newValue != "null") {
+            when (type) {
+                "NAME" -> {
+                    Log.d(logtag, "Navn")
+                    db.child(uid).child("navn").setValue(newValue).addOnCompleteListener() { task ->
+                        if (task.isSuccessful) onChanges.invoke(true)
+                        if (!task.isSuccessful) onChanges.invoke(false)
+                    }
+
+                }
+                "CPR" -> {
+                    Log.d(logtag, "CPR")
+                    db.child(uid).child("persID").setValue(newValue)
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                }
+                "BLOD" -> {
+                    Log.d(logtag, "BT")
+                    db.child(uid).child("Medicin").setValue(newValue)
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                }
+                "DONOR" -> {
+                    Log.d(logtag, "D")
+                    db.child(uid).child("Donor").setValue(newValue)
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                }
+                "MEDICIN" -> {
+                    Log.d(logtag, "M")
+                    db.child(uid).child("Medicin").child(count.toString()).setValue(newValue)
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+
+                }
+                "ALLERGIE" -> {
+                    Log.d(logtag, "A")
+                    db.child(uid).child("Allergier").child(count.toString()).setValue(newValue)
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                }
+                "EMERGENCY" -> {
+                    Log.d(logtag, "N")
+                    val list = newValue.split(":", ",", " ", ";")
+
+                    db.child(uid).child("Kontaktperson").child("navn").setValue(list[0])
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                    db.child(uid).child("Kontaktperson").child("nummer").setValue(list[1])
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+
+                }
+                "OTHER" -> {
+                    Log.d(logtag, "andet")
+                    db.child(uid).child("Andet").child(count.toString()).setValue(newValue)
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                }
 
             }
-            "CPR"->{
-                Log.d(logtag, "CPR")
-                db.child(uid).child("persID").setValue(newValue).addOnCompleteListener(){ task ->
-                    if( task.isSuccessful) onChanges.invoke(true)
-                    if( !task.isSuccessful) onChanges.invoke(false)}
-            }
-            "BLOD"->{
-                Log.d(logtag, "BT")
-                db.child(uid).child("Medicin").setValue(newValue).addOnCompleteListener(){ task ->
-                    if( task.isSuccessful) onChanges.invoke(true)
-                    if( !task.isSuccessful) onChanges.invoke(false)}
-            }
-            "DONOR"->{
-                Log.d(logtag, "D")
-                db.child(uid).child("Donor").setValue(newValue).addOnCompleteListener(){ task ->
-                    if( task.isSuccessful) onChanges.invoke(true)
-                    if( !task.isSuccessful) onChanges.invoke(false)}
-            }
-            "MEDICIN" ->{
-                Log.d(logtag, "M")
-                db.child(uid).child("Medicin").child(count.toString()).setValue(newValue).addOnCompleteListener(){ task ->
-                    if( task.isSuccessful) onChanges.invoke(true)
-                    if( !task.isSuccessful) onChanges.invoke(false)}
+
+        } else if (newValue == "DELETE"){
+
+            when (type) {
+
+                "BLOD" -> {
+                    Log.d(logtag, "BT")
+                    db.child(uid).child("Medicin").setValue(newValue)
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                }
+                "DONOR" -> {
+                    Log.d(logtag, "D")
+                    db.child(uid).child("Donor").setValue("Nej")
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                }
+                "MEDICIN" -> {
+                    Log.d(logtag, "M")
+                    db.child(uid).child("Medicin").child(count.toString()).removeValue()
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+
+                }
+                "ALLERGIE" -> {
+                    Log.d(logtag, "A")
+                    db.child(uid).child("Allergier").child(count.toString()).removeValue()
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                }
+                "EMERGENCY" -> {
+                    Log.d(logtag, "N")
+                    val list = newValue.split(":", ",", " ", ";")
+
+                    db.child(uid).child("Kontaktperson").child("navn").removeValue()
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                    db.child(uid).child("Kontaktperson").child("nummer").removeValue()
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+
+                }
+                "OTHER" -> {
+                    Log.d(logtag, "andet")
+                    db.child(uid).child("Andet").child(count.toString()).removeValue()
+                        .addOnCompleteListener() { task ->
+                            if (task.isSuccessful) onChanges.invoke(true)
+                            if (!task.isSuccessful) onChanges.invoke(false)
+                        }
+                }
 
             }
-            "ALLERGIE"->{
-                Log.d(logtag, "A")
-                db.child(uid).child("Allergier").child(count.toString()).setValue(newValue).addOnCompleteListener(){ task ->
-                    if( task.isSuccessful) onChanges.invoke(true)
-                    if( !task.isSuccessful) onChanges.invoke(false)}
-            }
-            "EMERGENCY"->{
-                Log.d(logtag, "N")
-                val list = newValue.split(":",","," ",";")
 
-                db.child(uid).child("Kontaktperson").child("navn").setValue(list[0]).addOnCompleteListener(){ task ->
-                    if( task.isSuccessful) onChanges.invoke(true)
-                    if( !task.isSuccessful) onChanges.invoke(false)}
-                db.child(uid).child("Kontaktperson").child("nummer").setValue(list[1]).addOnCompleteListener(){ task ->
-                    if( task.isSuccessful) onChanges.invoke(true)
-                    if( !task.isSuccessful) onChanges.invoke(false)}
+        }else onChanges.invoke(false)
 
-            }
-            "OTHER"->{
-                Log.d(logtag, "andet")
-                db.child(uid).child("Andet").child(count.toString()).setValue(newValue).addOnCompleteListener(){ task ->
-                    if( task.isSuccessful) onChanges.invoke(true)
-                    if( !task.isSuccessful) onChanges.invoke(false)}
-            }
 
-        }
+
+
 
 
    }

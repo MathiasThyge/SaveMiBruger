@@ -48,7 +48,7 @@ class HomeViewModel: ViewModel() {
     }
 
     fun homeUpdateRepo( currentUser: FirebaseUser){
-        repo.upDataRepo(currentUser) { user ->
+        repo.upDateRepo(currentUser) { user ->
             if (user == null) {
                 modelViewHomeLiveData.postValue(null)
             } else {

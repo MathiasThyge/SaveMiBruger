@@ -44,11 +44,9 @@ class EditViewModel: ViewModel() {
 
 
        fun editUpdateRepo( currentUser: FirebaseUser){
-           var medicin = 0
-           var allergi = 0
-           var emergency = 0
-           var other = 0
-           repo.upDataRepo(currentUser) { user ->
+           var medicin = 0;     var allergi = 0
+           var emergency = 0;   var other = 0
+           repo.upDateRepo(currentUser) { user ->
             if (user == null) {
                 modelViewEditLiveData.postValue(null)
             } else {
@@ -63,10 +61,7 @@ class EditViewModel: ViewModel() {
                 list.addAll(user.emergencies.map { EditDataElement(it, EditDataType.EMERGENCY,emergency++) })
                 list.addAll(user.others.map { EditDataElement(it, EditDataType.OTHER,other++) })
                 modelViewEditLiveData.postValue(EditData(list, user.authentication))
-                medicin = 0
-                allergi = 0
-                emergency = 0
-                other = 0
+                medicin = 0; allergi = 0; emergency = 0; other = 0
             }
         }
     }

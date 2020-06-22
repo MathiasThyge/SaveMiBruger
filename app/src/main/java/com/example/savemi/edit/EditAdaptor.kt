@@ -39,9 +39,7 @@ class EditAdaptor(): RecyclerView.Adapter<EditAdaptor.ViewHolder>() {
         Log.d("EditApaptor","elementText: "+element.text)
         Log.d("EditApaptor", "elementPos: $position")
         holder.edit.setOnClickListener{
-            Log.d(logtag, "TEXT:")
             onItemClick(holder.adapterPosition)
-
         }
 
         when(element.type){

@@ -10,6 +10,7 @@
     <string name="Prøv_igen">tryconnectagain</string>
     <string name="OK">ok</string>
     <string name="Fortryd">cancel</string>
+    <string name="Annuller" color="@android:color/darker_gray">Annuller</string>
 
 
 
@@ -26,7 +27,7 @@
         <item><font size='18'>B negativ</font></item>
         <item><font size='18'>AB positiv</font></item>
         <item><font size='18'>AB negativ</font></item>
-        <item><font size='18'>0 positiv</font></item>
-        <item><font size='18'>0 negativ</font></item>
+        <item><font size='18'>O positiv</font></item>
+        <item><font size='18'>O negativ</font></item>
     </string-array>
 </resources>

@@ -1,7 +1,6 @@
 package com.example.savemi
 
-import android.content.Intent
-import android.net.Uri
+
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,19 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.ToggleButton
 import androidx.navigation.fragment.findNavController
-import com.example.savemi.R.id.action_scanForWristbandFragment_to_settingsFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fragment_registrer.*
 import kotlinx.android.synthetic.main.fragment_scan_for_wristband.*
-import kotlinx.coroutines.NonCancellable.cancel
+
 
 
 
