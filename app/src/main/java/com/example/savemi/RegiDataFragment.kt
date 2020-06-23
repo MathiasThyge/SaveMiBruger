@@ -18,6 +18,8 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_regi_data.*
 import kotlinx.android.synthetic.main.fragment_regi_data.view.*
 import androidx.navigation.fragment.findNavController
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -46,14 +48,11 @@ class RegiDataFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_regi_data,container,false)
-
-
         return view
     }
 
     override fun onViewCreated( view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         fun hideSoftKeyBoard( view: View) {
             try {
                 val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -65,9 +64,9 @@ class RegiDataFragment : Fragment() {
 
         view.findViewById<ImageView>(R.id.back_from_regiData).setOnClickListener(){
             hideSoftKeyBoard(view)
-            FirebaseAuth.getInstance().currentUser?.delete()
+            //FirebaseAuth.getInstance().currentUser?.delete()
             findNavController().navigateUp()
-            Toast.makeText(activity,"Din bruger er blevet slettet, opret venligst bruger på ny",Toast.LENGTH_LONG).show()
+            //Toast.makeText(activity,"Din bruger er blevet slettet, opret venligst bruger på ny",Toast.LENGTH_LONG).show()
         }
 
 
@@ -83,8 +82,6 @@ class RegiDataFragment : Fragment() {
             writeToFireBase("Donor")
             writeToFireBase("Kontaktperson")
             writeToFireBase("")
-            //findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
-
         }
         view.findViewById<ImageButton>(R.id.regiData_add).setOnClickListener(){
             hideSoftKeyBoard(view)
@@ -173,27 +170,45 @@ class RegiDataFragment : Fragment() {
             return
         }
         if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() >= 12 || RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length() <= 9) {
-            Log.d(logtag, "Length of CPR in:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
+            //Log.d(logtag, "Length of CPR in:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Angiv korrekt CPR"
             RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
             fejlInput = true
             return
-        }   else fejlInput = false
+        }
+        /*      Not tested yet!
+        if (RegiData_ScrollView_ContraintLayout.regiDataPersonalID.text.toString().contains("-")){
+                val split = RegiData_ScrollView_ContraintLayout.regiDataPersonalID.text.toString().split("-")
+                Log.d(logtag,"split0: " + split[0].length)
+                Log.d(logtag,"split1: " + split[1].length)
+                if ( split[0].length != 6 || split[1].length != 4 ){
+                    RegiData_ScrollView_ContraintLayout.regiDataPersonalID.error = "Fjern bindestreg eller angiv korrekt CPR format"
+                    RegiData_ScrollView_ContraintLayout.regiDataPersonalID.requestFocus()
+                    fejlInput = true
+                    return
+                } else fejlInput = false
+            }*/ else {
+            fejlInput = false
+            //Log.d(logtag,"Ingen fejlinput")
+        }
+
 
         if( currentUser != null ) {
             data class User(
                 var Navn: String = "",
-                var PersId: String = ""//,
+                var PersId: String = ""
             )
 
-            Log.d(logtag, "Length of CPR:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
+            //Log.d(logtag, "Length of CPR:" + RegiData_ScrollView_ContraintLayout.regiDataPersonalID.length())
 
             val uid = auth.currentUser?.uid.toString()
+            //Log.d(logtag, "Firebase uid der skrives til i CreateUser: " + uid)
+
             val Navn = RegiData_ScrollView_ContraintLayout.regiDataName.text.toString()
             val PersId = RegiData_ScrollView_ContraintLayout.regiDataPersonalID.text.toString()
-            Log.d(logtag, "Indtastet nav og cpr: " + Navn + " " + PersId)
+            //Log.d(logtag, "Indtastet nav og cpr: " + Navn + " " + PersId)
             val user = User( Navn, PersId )
-            Log.d(logtag, "User: " + user)
+            //Log.d(logtag, "Navn og CPR der gemmes i firebase: " + user)
 
             database.child("users").child( uid ).setValue(user).addOnCompleteListener(){ task ->
                 if( !task.isSuccessful){
@@ -207,6 +222,8 @@ class RegiDataFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         database = Firebase.database.reference
         val uid = auth.currentUser?.uid.toString()
+        //Log.d(logtag, "Firebase uid der skrives til i WriteToFireBase: " + uid)
+
         var list = ArrayList<String>()
         // Test for finding out how to get string from new editText
         /*Log.d(logtag,   "Array " + medicinIdList)
@@ -219,58 +236,68 @@ class RegiDataFragment : Fragment() {
         when (input) {
 
             "Medicin" -> {
-                if (totalMedicinFields == 1 && !RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
+                if (!RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString().isEmpty()) {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataMedicin1.text.toString())
                 }
                 if( totalMedicinFields > 1){
+                    //Log.d(logtag, "Flere medicin felter fundet")
                     for (newEditText in medicinIdList){
+                        //Log.d(logtag, "Antal medicin felter: " + medicinIdList.size)
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
-                            Log.d(logtag,"Gennemlest tilføjede medicin: " + newEditText.text.toString())
-                        } else (Log.d(logtag, "andet felt er tomt"))
+                            //Log.d(logtag,"Gennemlest tilføjede medicin: " + newEditText.text.toString())
+                        } else (Log.d(logtag, "felt er tomt"))
                     }
                 }
             }
             "Allergier" -> {
-                if (totalAllergiFields == 1 && !RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
+                if (!RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString().isEmpty()) {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataAllergi1.text.toString())
                 }
                 if( totalAllergiFields > 1){
+                    //Log.d(logtag, "Flere allergi felter fundet")
                     for (newEditText in allergiIdList){
+                        //Log.d(logtag, "Antal allergi felter: " + allergiIdList.size)
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
-                            Log.d(logtag,"Gennemlest tilføjede allergi: " + newEditText.text.toString())
-                        } else (Log.d(logtag, "andet felt er tomt"))
+                            //Log.d(logtag,"Gennemlest tilføjede allergi: " + newEditText.text.toString())
+                        } else (Log.d(logtag, "felt er tomt"))
                     }
                 }
             }
             "Andet" -> {
-                if (totalOtherFields == 1 && !RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
+                if (!RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString().isEmpty()) {
                     list.add(RegiData_ScrollView_ContraintLayout.regiDataOther1.text.toString())
                 }
                 if( totalOtherFields > 1 ){
+                    //Log.d(logtag, "Flere andre felter fundet")
                     for (newEditText in otherIdList){
+                        //Log.d(logtag, "Antal andre felter: " + otherIdList.size)
                         if (!newEditText.text.toString().isEmpty()){
                             list.add(newEditText.text.toString())
-                            Log.d(logtag,"Gennemlest tilføjede andet: " + newEditText.text.toString())
-                        } else (Log.d(logtag, "andet felt er tomt"))
+                            //Log.d(logtag,"Gennemlest tilføjede andet: " + newEditText.text.toString())
+                        } else (Log.d(logtag, "felt er tomt"))
                     }
                 }
             }
             "Blodtype" -> {
                 var spinner = view?.findViewById<Spinner>(R.id.regiDataBlodType)?.selectedItem
-                if (spinner.toString() == input ){
+                if (spinner.toString().equals(input)){
+                    //Log.d(logtag, "Ingen blodtype valgt: " + spinner.toString() + "\n Svarer til input: " + input)
                     return
                 } else {
+                    //Log.d(logtag, "Tilføjes til firebase: "+ "\n" + "Type: " + input + "\n" + "Indhold: " + spinner.toString())
                     database.child("users").child(uid).child(input).setValue(spinner.toString())
                 }
             }
             "Donor" -> {
                 var spinner = view?.findViewById<Spinner>(R.id.regiDataDonor)?.selectedItem
                 if (spinner.toString().equals(input)){
+                    //Log.d(logtag,"Ingen donortype valgt - sættes til Nej: " + spinner.toString() + "\n Svarer til input: " + input)
                     database.child("users").child(uid).child(input).setValue("Nej")
                     return
                 } else {
+                    //Log.d(logtag, "Tilføjes til firebase: "+ "\n" + "Type: " + input + "\n" + "Indhold: " + spinner.toString())
                     database.child("users").child(uid).child(input).setValue(spinner.toString())
                 }
             }
@@ -286,25 +313,34 @@ class RegiDataFragment : Fragment() {
                     return
                 } else if ( kontaktNavn.text.toString().isEmpty() && !kontaktNummer.text.toString().isEmpty()) {
                     kontaktNavn.error = "Udfyld også navn"
+                    //Log.d(logtag, "Navn mangler - kontakt tilføjes ikke til firebase")
                     kontaktNavn.requestFocus()
                     fejlInput = true
                 } else if ( !kontaktNavn.text.toString().isEmpty() && kontaktNummer.text.toString().isEmpty()) {
                     kontaktNummer.error = "Udfyld også nummer"
+                    //Log.d(logtag,"Nummer mangler - kontakt tilføjes ikke til firebase")
                     kontaktNummer.requestFocus()
                     fejlInput = true
                 } else {
                     var registreretInfo = KontakInfo( kontaktNavn.text.toString() , kontaktNummer.text.toString() )
+                    //Log.d(logtag, "Tilføjes til firebase: "+ "\n" + "Type: " + input + "\n" + "Indhold: " + registreretInfo)
                     database.child("users").child(uid).child(input).setValue( registreretInfo )
                 }
             }
-            else -> if(fejlInput == false) findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
+            else -> {
+                if(fejlInput == false) {
+                    findNavController().navigate(R.id.action_regiDataFragment_to_scanForWristbandFragment)
+                    //Log.d(logtag,"Alt korrekt tilføjet - navigerer til scanForWristband")
+                }
+            }
         }
         when (input) {
             "Medicin","Allergier","Andet" -> {
-                Log.d(logtag, "Liste er: " + list)
+
                 if (list.size > 0) {
+                    //Log.d(logtag, "Tilføjes til firebase: "+ "\n" + "Type: " + input + "\n" + "Indhold: " + list)
                     database.child("users").child(uid).child(input).setValue(list)
-                }
+                } //Log.d(logtag, "Ingen Medicin, Allergi eller Andet udfyldt")
             }
         }
     }
@@ -325,9 +361,10 @@ class RegiDataFragment : Fragment() {
         when(choosen){
             "Medicin"   -> {
                 totalMedicinFields++
+                //Log.d(logtag, "Antal TotalMedicinFields - $totalMedicinFields")
                 if(totalMedicinFields > 5) {
-                    Log.d(logtag, "TotalMedicinFields over 5 er - $totalMedicinFields")
                     Toast.makeText(activity,"Du har nået grænsen for antal medicin felter",Toast.LENGTH_SHORT).show()
+                    //Log.d(logtag,"Max Medicin felter")
                     return
                 }
                 linearLayout = requireView().findViewById<LinearLayout>(R.id.regiData_add_Medicin)
@@ -338,9 +375,10 @@ class RegiDataFragment : Fragment() {
             }
             "Allergier"   -> {
                 totalAllergiFields++
+                //Log.d(logtag, "Antal TotalAllergiFields - $totalAllergiFields")
                 if(totalAllergiFields > 5) {
-                    Log.d(logtag, "TotalAllergiFields over 5 er - $totalAllergiFields")
                     Toast.makeText(activity,"Du har nået grænsen for antal allergi felter",Toast.LENGTH_SHORT).show()
+                    //Log.d(logtag,"Max Allergi felter")
                     return
                 }
                 linearLayout = requireView().findViewById<LinearLayout>(R.id.regiData_add_Allergi)
@@ -351,9 +389,10 @@ class RegiDataFragment : Fragment() {
             }
             "Andet"     -> {
                 totalOtherFields++
+                //Log.d(logtag, "Antal TotalOtherFields - $totalOtherFields")
                 if(totalOtherFields > 5) {
-                    Log.d(logtag, "TotalOtherFields over 5 er - $totalOtherFields")
                     Toast.makeText(activity,"Du har nået grænsen for antal andet felter",Toast.LENGTH_SHORT).show()
+                    //Log.d(logtag,"Max Andre felter")
                     return
                 }
                 linearLayout = requireView().findViewById<LinearLayout>(R.id.regiData_add_Other)
@@ -380,6 +419,7 @@ class RegiDataFragment : Fragment() {
         newEditText.setBackgroundResource(R.drawable.inputbox)
 
         linearLayout?.addView(newEditText, layoutParam)
+        //Log.d(logtag, "Nyt - " + choosen + " - felt tilføjet til dets tilsvarende linearlayout")
     }
 
     // Animation method
@@ -387,8 +427,8 @@ class RegiDataFragment : Fragment() {
         if(addField == true) {
             val animationUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
             regiData_overlay_view.startAnimation(animationUp)
-
             regiData_overlay_view.visibility = LinearLayout.VISIBLE
+            //Log.d(logtag,"SlideUp kaldt")
             addField = false
         }
     }
@@ -399,6 +439,7 @@ class RegiDataFragment : Fragment() {
             val animationDown = AnimationUtils.loadAnimation(context, R.anim.slide_down)
             regiData_overlay_view.startAnimation(animationDown)
             regiData_overlay_view.visibility = LinearLayout.GONE
+            //Log.d(logtag,"SlideDown kaldt")
             addField = true
         }
     }

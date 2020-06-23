@@ -44,9 +44,9 @@ class RegistrerFragment : Fragment() {
     }
 
     private fun updateUI(currentUser: FirebaseUser?){
-        Log.d(logtag,"user: $currentUser")
+        //Log.d(logtag,"user: $currentUser")
         if(currentUser!=null){
-            Log.d(logtag,"updateUI before navcontroller")
+            //Log.d(logtag,"updateUI before navcontroller")
             findNavController().navigate(R.id.action_registrerFragment_to_regiDataFragment)
         }else{
             Toast.makeText(activity,"Login fejlede",Toast.LENGTH_SHORT).show()
@@ -74,7 +74,7 @@ class RegistrerFragment : Fragment() {
         }
 
         if(regi_password.length()<8){
-            regi_password.error ="min. 9 karaktere"
+            regi_password.error ="min. 8 karaktere"
             regi_password.requestFocus()
             return
         }
@@ -96,7 +96,8 @@ class RegistrerFragment : Fragment() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         val user = auth.currentUser
-                        Log.d(logtag,"oprettet$user")
+                        val userPrint = auth.currentUser?.uid.toString()
+                        //Log.d(logtag,"oprettet: $userPrint")
                         updateUI(user)
                     } else {
                         // If sign in fails, display a message to the user.

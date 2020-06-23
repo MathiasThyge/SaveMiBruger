@@ -2,7 +2,7 @@
     <string name="app_name">SAVEMI</string>
     <string name="safe_mi">" SAFE       MI"</string>
     <string name="slogan">"Save Medical Information</string>
-    <string name="createaccount">"Her du ikke en bruger? Opret en her!"</string>
+    <string name="createaccount">"Har du ikke en bruger? Opret en her!"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Intet_armbånd_fundet_text">wristbandNotfound</string>
